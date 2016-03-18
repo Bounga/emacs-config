@@ -1,0 +1,8 @@
+syntax: glob
+
+recentf
+semanticdb
+elpa
+bookmarks
+eshell
+projectile-bookmarks.eld
