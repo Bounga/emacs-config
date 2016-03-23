@@ -7,6 +7,8 @@
 ;;; Code:
 
 (require 'projectile)
+(require 'ag)
+(require 'helm-ag)
 
 (projectile-global-mode)
 
