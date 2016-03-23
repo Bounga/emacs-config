@@ -14,11 +14,6 @@
 ;; delete all selected region on del
 (delete-selection-mode t)
 
-;; show useless whitespaces and remove them on save
-(require 'whitespace)
-;;(add-hook 'before-save-hook 'whitespace-cleanup)
-(setq whitespace-action '(auto-cleanup))
-
 ;; Auto-pair parentheses, braces, …
 (electric-pair-mode 1)
 
@@ -30,6 +25,7 @@
 
 ;; Company
 (require 'company)
+(require 'company-dabbrev)
 
 (setq company-idle-delay 0.5
       company-tooltip-limit 10
@@ -43,8 +39,10 @@
 
 ;; whitespace-mode config
 (require 'whitespace)
-(setq whitespace-line-column 80) ;; limit line length
-(setq whitespace-style '(face tabs empty trailing lines-tail))
+;;(add-hook 'before-save-hook 'whitespace-cleanup)
+(setq whitespace-action '(auto-cleanup)
+      whitespace-line-column 80
+      whitespace-style '(face tabs empty trailing lines-tail))
 
 ;; Highlight diff for versionned files
 (require 'diff-hl)
