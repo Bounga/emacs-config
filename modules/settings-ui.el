@@ -22,9 +22,6 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-;; line numbering on left
-(global-linum-mode t)
-
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
