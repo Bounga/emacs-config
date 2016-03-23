@@ -13,10 +13,10 @@
 ;; enable flycheck
 (require 'flycheck)
 (require 'helm-flycheck)
-(global-flycheck-mode)
 
 ;; enable linum mode for programming
 (add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook 'flycheck-mode)
 
 (provide 'settings-programming)
 ;;; settings-programming ends here
