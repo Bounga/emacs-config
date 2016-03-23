@@ -16,6 +16,7 @@
 
 ;; Auto-pair parentheses, braces, …
 (electric-pair-mode 1)
+(show-paren-mode 1)
 
 ;; abbrev config
 (add-hook 'text-mode-hook 'abbrev-mode)
@@ -39,7 +40,7 @@
 
 ;; whitespace-mode config
 (require 'whitespace)
-;;(add-hook 'before-save-hook 'whitespace-cleanup)
+(global-whitespace-mode 1)
 (setq whitespace-action '(auto-cleanup)
       whitespace-line-column 80
       whitespace-style '(face tabs empty trailing lines-tail))
