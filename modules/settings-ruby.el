@@ -9,6 +9,7 @@
 (require 'rbenv)
 (global-rbenv-mode)
 
+(require 'ruby-electric)
 (require 'ruby-tools)
 (require 'inf-ruby)
 (require 'robe)
@@ -39,6 +40,9 @@
 (require 'yard-mode)
 (add-hook 'ruby-mode-hook 'yard-mode)
 (add-hook 'ruby-mode-hook 'eldoc-mode)
+
+(eval-after-load "ruby-mode"
+  '(add-hook 'ruby-mode-hook 'ruby-electric-mode))
 
 (provide 'settings-ruby)
 ;;; settings-ruby.el ends here
