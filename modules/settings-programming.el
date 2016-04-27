@@ -10,6 +10,10 @@
 (require 'ecb)
 (setq ecb-options-version "2.40")
 
+;; enable snippets
+(require 'yasnippet)
+(yas-global-mode 1)
+
 ;; enable flycheck
 (require 'flycheck)
 (require 'helm-flycheck)
@@ -17,6 +21,7 @@
 ;; enable linum mode for programming
 (add-hook 'prog-mode-hook 'linum-mode)
 (add-hook 'prog-mode-hook 'flycheck-mode)
+(add-hook 'prog-mode-hook 'smartparens-mode)
 
 (provide 'settings-programming)
 ;;; settings-programming ends here
