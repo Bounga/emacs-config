@@ -10,7 +10,6 @@
 (global-rbenv-mode)
 
 (require 'enh-ruby-mode)
-(require 'ruby-electric)
 (require 'ruby-tools)
 (require 'inf-ruby)
 (require 'robe)
@@ -43,8 +42,8 @@
 (add-hook 'enh-ruby-mode-hook 'yard-mode)
 (add-hook 'enh-ruby-mode-hook 'eldoc-mode)
 
-(eval-after-load "enh-ruby-mode"
-  '(add-hook 'enh-ruby-mode-hook 'ruby-electric-mode))
+(eval-after-load 'company
+  '(push 'company-robe company-backends))
 
 (provide 'settings-ruby)
 ;;; settings-ruby.el ends here
