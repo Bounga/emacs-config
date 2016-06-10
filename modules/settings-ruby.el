@@ -16,6 +16,7 @@
 
 (add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
 (add-hook 'enh-ruby-mode-hook 'ruby-tools-mode)
+(add-hook 'enh-ruby-mode-hook 'robe-mode)
 
 ;; Rake files are ruby, too, as are gemspecs, rackup files, and gemfiles.
 (add-to-list 'auto-mode-alist '("\\.rb\\'" . enh-ruby-mode))
