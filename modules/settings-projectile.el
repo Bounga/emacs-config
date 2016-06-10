@@ -12,7 +12,7 @@
 
 (projectile-global-mode)
 
-(setq projectile-switch-project-action 'projectile-dired
+(setq projectile-switch-project-action 'projectile-find-file
       projectile-completion-system 'helm
       projectile-globally-ignored-directories
       (quote
