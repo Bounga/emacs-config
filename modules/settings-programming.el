@@ -18,6 +18,9 @@
 (require 'flycheck)
 (require 'helm-flycheck)
 
+;; enable smartparens mode
+(require 'smartparens-config)
+
 ;; enable linum mode for programming
 (add-hook 'prog-mode-hook 'linum-mode)
 (add-hook 'prog-mode-hook 'flycheck-mode)
