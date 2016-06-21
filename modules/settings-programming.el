@@ -26,5 +26,10 @@
 (add-hook 'prog-mode-hook 'flycheck-mode)
 (add-hook 'prog-mode-hook 'smartparens-mode)
 
+;; enable dash-at-point and bind shortcuts
+(require 'dash-at-point)
+(global-set-key "\C-cd" 'dash-at-point)
+(global-set-key "\C-ce" 'dash-at-point-with-docset)
+
 (provide 'settings-programming)
 ;;; settings-programming ends here
