@@ -10,6 +10,10 @@
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; GitFlow for Magit
+(require 'magit-gitflow)
+(add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+
 ;; enable monky (magit for hg)
 (require 'monky)
 
