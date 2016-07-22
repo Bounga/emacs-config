@@ -46,7 +46,8 @@
 (eval-after-load 'company
   '(push 'company-robe company-backends))
 
-(setq enh-ruby-deep-indent-paren nil)
+(setq enh-ruby-deep-indent-paren nil
+      enh-ruby-add-encoding-comment-on-save nil)
 
 (provide 'settings-ruby)
 ;;; settings-ruby.el ends here
