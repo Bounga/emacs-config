@@ -31,5 +31,9 @@
 (global-set-key "\C-cd" 'dash-at-point)
 (global-set-key "\C-ce" 'dash-at-point-with-docset)
 
+;; Highlight keywords like TODO, FIXME, etc
+(require 'fic-mode)
+(add-hook 'prog-mode-hook 'fic-mode)
+
 (provide 'settings-programming)
 ;;; settings-programming ends here
