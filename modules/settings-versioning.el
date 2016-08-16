@@ -16,7 +16,7 @@
 
 ;; enable monky (magit for hg)
 (require 'monky)
-
+(add-hook 'monky-mode-hook 'turn-on-auto-fill)
 
 (provide 'settings-versioning)
 ;;; settings-versioning ends here
