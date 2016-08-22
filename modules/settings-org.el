@@ -13,9 +13,12 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-log-done t)
 
-(setq org-agenda-files (list "~/org/emacs.org"
-                             "~/org/work.org"
-                             "~/org/personal.org"))
+(setq org-agenda-files (list "~/Documents/org/code.org"
+                             "~/Documents/org/emacs.org"
+                             "~/Documents/org/games.org"
+                             "~/Documents/org/guitar.org"
+                             "~/Documents/org/work.org"
+                             "~/Documents/org/home.org"))
 
 (provide 'settings-org)
 ;;; settings-org ends here
