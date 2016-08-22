@@ -20,5 +20,8 @@
                              "~/Documents/org/work.org"
                              "~/Documents/org/home.org"))
 
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+(add-hook 'org-mode-hook 'flyspell-mode)
+
 (provide 'settings-org)
 ;;; settings-org ends here
