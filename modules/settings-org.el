@@ -8,17 +8,19 @@
 
 (require 'org)
 
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
-(setq org-log-done t)
+(global-set-key "\C-cc" 'org-capture)
 
-(setq org-agenda-files (list "~/Documents/org/code.org"
-                             "~/Documents/org/emacs.org"
-                             "~/Documents/org/games.org"
-                             "~/Documents/org/guitar.org"
-                             "~/Documents/org/work.org"
-                             "~/Documents/org/home.org"))
+(setq org-directory "~/Documents/org"
+      org-agenda-files (directory-files org-directory nil ".org")
+      org-log-done t
+      org-hide-leading-stars t
+      org-default-notes-file "~/Documents/org/notes.org")
+
 
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
 (add-hook 'org-mode-hook 'flyspell-mode)
