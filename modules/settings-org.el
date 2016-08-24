@@ -19,7 +19,8 @@
       org-agenda-files (directory-files org-directory nil ".org")
       org-log-done t
       org-hide-leading-stars t
-      org-default-notes-file "~/Documents/org/notes.org")
+      org-default-notes-file "~/Documents/org/notes.org"
+      org-src-fontify-natively t)
 
 
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
