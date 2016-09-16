@@ -16,7 +16,7 @@
       projectile-completion-system 'helm
       projectile-globally-ignored-directories
       (quote
-       (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "public/system" "vendor/bundle" "node_modules" "bower_components" ".bundle" ".sass-cache" ".yardoc" "tmp"))
+       (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "public/system" "vendor/bundle" "node_modules" "bower_components" ".bundle" ".sass-cache" ".yardoc" "tmp" "_build" "deps"))
       projectile-globally-ignored-file-suffixes (quote ("DS_Store" "log" "db" "pdf")))
 
 (helm-projectile-on)
