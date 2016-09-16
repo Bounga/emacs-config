@@ -7,6 +7,7 @@
 ;;; Code:
 
 (require 'org)
+(require 'org-bullets)
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
@@ -25,6 +26,9 @@
 
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
 (add-hook 'org-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook
+          (lambda()
+            (org-bullets-mode t)))
 
 (provide 'settings-org)
 ;;; settings-org ends here
