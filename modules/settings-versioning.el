@@ -10,6 +10,9 @@
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; default settings
+(setq magit-log-arguments (quote ("--graph" "--color" "--decorate" "-n256")))
+
 ;; GitFlow for Magit
 (require 'magit-gitflow)
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
