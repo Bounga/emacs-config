@@ -47,6 +47,7 @@
 (require 'settings-diminish "~/.emacs.d/modules/settings-diminish.el")
 (require 'settings-versioning "~/.emacs.d/modules/settings-versioning.el")
 (require 'settings-elixir "~/.emacs.d/modules/settings-elixir.el")
+(require 'settings-web "~/.emacs.d/modules/settings-web.el")
 
 ;; config changes made through the customize UI will be store here
 (setq custom-file (expand-file-name "custom.el" personal-dir))
