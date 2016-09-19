@@ -11,6 +11,9 @@
 (diminish 'undo-tree-mode)
 (diminish 'company-mode)
 (diminish 'helm-mode)
+(diminish 'smartparens-mode)
+(diminish 'global-whitespace-mode)
+(diminish 'abbrev-mode)
 
 (provide 'settings-diminish)
 ;;; settings-diminish.el ends here
