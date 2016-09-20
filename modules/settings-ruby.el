@@ -13,10 +13,8 @@
 (require 'ruby-tools)
 (require 'inf-ruby)
 (require 'robe)
-
-(add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
-(add-hook 'enh-ruby-mode-hook 'ruby-tools-mode)
-(add-hook 'enh-ruby-mode-hook 'robe-mode)
+(require 'yard-mode)
+(require 'align)
 
 ;; Rake files are ruby, too, as are gemspecs, rackup files, and gemfiles.
 (add-to-list 'auto-mode-alist '("\\.rb\\'" . enh-ruby-mode))
@@ -39,15 +37,50 @@
 (add-to-list 'auto-mode-alist '("Berksfile\\'" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Appraisals\\'" . enh-ruby-mode))
 
-(require 'yard-mode)
+;; enable minor modes needed in Ruby mode
 (add-hook 'enh-ruby-mode-hook 'yard-mode)
 (add-hook 'enh-ruby-mode-hook 'eldoc-mode)
+(add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
+(add-hook 'enh-ruby-mode-hook 'ruby-tools-mode)
+(add-hook 'enh-ruby-mode-hook 'robe-mode)
 
 (eval-after-load 'company
   '(push 'company-robe company-backends))
 
 (setq enh-ruby-deep-indent-paren nil
       enh-ruby-add-encoding-comment-on-save nil)
+
+;; define rules for automatic alignments
+(add-to-list 'align-rules-list
+             '(ruby-comma-delimiter
+               (regexp . ",\\(\\s-*\\)[^# \t\n]")
+               (repeat . t)
+               (modes  . '(enh-ruby-mode))))
+
+(add-to-list 'align-rules-list
+             '(ruby-hash-literal
+               (regexp . "\\(\\s-*\\)=>\\s-*[^# \t\n]")
+               (group 2 3)
+               (repeat . t)
+               (modes  . '(enh-ruby-mode))))
+
+(add-to-list 'align-rules-list
+             '(ruby-hash-literal2
+               (regexp . "[a-z0-9]:\\(\\s-*\\)[^# \t\n]")
+               (repeat . t)
+               (modes  . '(enh-ruby-mode))))
+
+(add-to-list 'align-rules-list
+             '(ruby-assignment-literal
+               (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
+               (repeat . t)
+               (modes  . '(enh-ruby-mode))))
+
+(add-to-list 'align-rules-list
+             '(ruby-xmpfilter-mark
+               (regexp . "\\(\\s-*\\)# => [^#\t\n]")
+               (repeat . nil)
+               (modes  . '(enh-ruby-mode))))
 
 (provide 'settings-ruby)
 ;;; settings-ruby.el ends here
