@@ -20,6 +20,8 @@
 
 ;; abbrev config
 (add-hook 'text-mode-hook 'abbrev-mode)
+(setq abbrev-file-name "~/.emacs.d/abbrev_defs"
+      save-abbrevs t)
 
 ;; smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
