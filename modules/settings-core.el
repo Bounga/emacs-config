@@ -6,6 +6,9 @@
 
 ;;; Code:
 
+;; Prefer UTF-8 as default encoding
+(set-language-environment "UTF-8")
+
 ;; Disable interlocking
 (setq create-lockfiles nil)
 
