@@ -9,6 +9,7 @@
 (require 'smtpmail)
 (require 'mml2015)
 (require 'gnus-async)
+(require 'gnus-msg)
 
 ;; Personal Information
 (setq user-full-name "Nicolas Cavigneaux"
@@ -23,6 +24,7 @@
       gnus-fetch-old-headers t
       gnus-message-archive-group nil)
 
+;; IMAP server info
 (setq gnus-select-method
       '(nnimap "gmail"
                (nnimap-address "imap.gmail.com")
@@ -47,6 +49,14 @@
 
 ;; Attempt to sign and encrypt all the mails we'll be sending.
 (add-hook 'gnus-message-setup-hook 'mml-secure-message-sign-encrypt)
+
+;; Reply to mails with matching email address
+(add-to-list 'gnus-extra-headers 'To)
+(setq gnus-posting-styles
+      '((".*" ; Matches all groups of messages
+         (address "nico@bounga.org"))
+        ((header "to" "nicolas@cavigneaux.net")
+         (address "nicolas@cavigneaux.net"))))
 
 ;; Show all subscribed groups in groups buffer
 (add-hook 'gnus-started-hook
