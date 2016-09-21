@@ -32,6 +32,7 @@
 
 (require 'settings-core "~/.emacs.d/modules/settings-core.el")
 (require 'settings-ui "~/.emacs.d/modules/settings-ui.el")
+(require 'settings-gnus "~/.emacs.d/modules/settings-gnus.el")
 (require 'settings-editing "~/.emacs.d/modules/settings-editing.el")
 (require 'settings-programming "~/.emacs.d/modules/settings-programming.el")
 (require 'settings-dired "~/.emacs.d/modules/settings-dired.el")
