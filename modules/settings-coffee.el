@@ -6,8 +6,10 @@
 
 ;;; Code:
 
-(require 'coffee-mode)
-(setq coffee-tab-width 2)
+(use-package coffee-mode
+  :ensure t
+  :init
+  (setq coffee-tab-width 2))
 
 (provide 'settings-coffee)
 ;;; settings-coffee ends here

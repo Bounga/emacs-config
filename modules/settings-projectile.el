@@ -6,20 +6,24 @@
 
 ;;; Code:
 
-(require 'projectile)
-(require 'ag)
-(require 'helm-ag)
+(use-package projectile
+  :ensure t
+  :init
+  (setq projectile-switch-project-action 'projectile-find-file
+        projectile-completion-system 'helm
+        projectile-globally-ignored-directories
+        (quote
+         (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "public/system" "vendor/bundle" "node_modules" "bower_components" ".bundle" ".sass-cache" ".yardoc" "tmp" "_build" "deps"))
+        projectile-globally-ignored-file-suffixes (quote ("DS_Store" "log" "db" "pdf")))
+  :config
+  (projectile-global-mode)
+  (helm-projectile-on))
 
-(projectile-global-mode)
+(use-package ag
+  :ensure t)
 
-(setq projectile-switch-project-action 'projectile-find-file
-      projectile-completion-system 'helm
-      projectile-globally-ignored-directories
-      (quote
-       (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "public/system" "vendor/bundle" "node_modules" "bower_components" ".bundle" ".sass-cache" ".yardoc" "tmp" "_build" "deps"))
-      projectile-globally-ignored-file-suffixes (quote ("DS_Store" "log" "db" "pdf")))
-
-(helm-projectile-on)
+(use-package helm-ag
+  :ensure t)
 
 (provide 'settings-projectile)
 ;;; settings-projectile ends here

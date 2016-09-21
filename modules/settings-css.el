@@ -7,15 +7,17 @@
 ;;; Code:
 
 ;; CSS
-(require 'css-mode)
-
-(setq css-indent-offset 2)
+(use-package css-mode
+  :ensure t
+  :init
+  (setq css-indent-offset 2))
 
 ;; SCSS / SASS
-(require 'scss-mode)
-
-;; turn off annoying auto-compile on save
-(setq scss-compile-at-save nil)
+(use-package scss-mode
+  :ensure t
+  :init
+  ;; turn off annoying auto-compile on save
+  (setq scss-compile-at-save nil))
 
 (provide 'settings-css)
 ;;; settings-css.el ends here

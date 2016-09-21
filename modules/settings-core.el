@@ -27,11 +27,14 @@
 (semantic-mode t)
 
 ;; clean up obsolete buffers automatically
-(require 'midnight)
+(use-package midnight
+  :ensure t)
 
 ;; saner regex syntax
-(require 're-builder)
-(setq reb-re-syntax 'string)
+(use-package re-builder
+  :ensure t
+  :init
+  (setq reb-re-syntax 'string))
 
 ;; avoid annoying alarm bell
 (setq ring-bell-function 'ignore)

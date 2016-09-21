@@ -6,21 +6,34 @@
 
 ;;; Code:
 
-;; custom theme and toolbars cleanup
-(load-theme 'wombat t)
+;; prevent silly initial splash screen
+(setq inhibit-splash-screen t)
+
+;; remove toolbar
 (tool-bar-mode -1)
 
+;; custom theme
+(use-package flatland-theme
+  :ensure t
+  :config
+  (load-theme 'flatland t))
+
 ;; enhance mode-line displaying
-(require 'smart-mode-line)
+(use-package smart-mode-line
+  :ensure t
+  :init
+  (setq sml/no-confirm-load-theme t
+        sml/theme 'dark)
 
-(setq sml/no-confirm-load-theme t
-      sml/theme 'dark)
-
-(add-hook 'after-init-hook #'sml/setup)
+  (add-hook 'after-init-hook #'sml/setup))
 
 ;; mode line settings
 (column-number-mode t)
 (size-indication-mode t)
+
+;; Highlight current line and make cursor blink
+(blink-cursor-mode 10)
+(global-hl-line-mode t)
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)

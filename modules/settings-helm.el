@@ -6,40 +6,38 @@
 ;; It also adds keybindings to ease Helm use
 
 ;;; Code:
+(use-package helm-config
+  :ensure helm
+  :bind (("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+         ("C-x b" . helm-mini)
+         ("C-x C-b" . helm-buffer-list)
+         ("C-x C-f" . helm-find-files)
+         ("C-c h o" . helm-occur)
+         ("C-h f" . helm-apropos)
+         ("C-h r" . helm-info-emacs)
+         ("C-h C-l" . helm-locate-library)
+         ("C-c f" . helm-recentf)
+         :map minibuffer-local-map
+         ("C-c C-l" . helm-minibuffer-history)
+         :map shell-mode-map
+         ("C-c C-l" . helm-comint-input-ring))
+  :init
+  (add-hook 'eshell-mode-hook
+            #'(lambda ()
+                (substitute-key-definition 'eshell-list-history 'helm-eshell-history eshell-mode-map)))
+  :config
+  (substitute-key-definition 'find-tag 'helm-etags-select global-map)
+  (helm-mode 1))
 
-(require 'helm-config)
-(require 'helm-projectile)
-
-(setq helm-split-window-in-side-p           t
+(use-package helm-projectile
+  :ensure t
+  :init
+  (setq helm-split-window-in-side-p         t
       helm-buffers-fuzzy-matching           t
       helm-move-to-line-cycle-in-source     t
       helm-ff-search-library-in-sexp        t
-      helm-ff-file-name-history-use-recentf t)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c h o") 'helm-occur)
-(global-set-key (kbd "C-h f") 'helm-apropos)
-(global-set-key (kbd "C-h r") 'helm-info-emacs)
-(global-set-key (kbd "C-h C-l") 'helm-locate-library)
-(global-set-key (kbd "C-c f") 'helm-recentf)
-
-(define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
-
-;; shell history.
-(define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
-
-;; use helm to list eshell history
-(add-hook 'eshell-mode-hook
-          #'(lambda ()
-              (substitute-key-definition 'eshell-list-history 'helm-eshell-history eshell-mode-map)))
-
-(substitute-key-definition 'find-tag 'helm-etags-select global-map)
-
-(helm-mode 1)
+      helm-ff-file-name-history-use-recentf t))
 
 (provide 'settings-helm)
 ;;; settings-helm.el ends here

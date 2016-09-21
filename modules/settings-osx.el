@@ -6,19 +6,17 @@
 
 ;;; Code:
 
-(require 'exec-path-from-shell)
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (defvar mac-option-key-is-meta nil)
+  (defvar mac-command-key-is-meta t)
 
-(exec-path-from-shell-initialize)
+  (setq mac-command-modifier 'meta
+        mac-option-modifier nil)
 
-(defvar mac-option-key-is-meta nil)
-(defvar mac-command-key-is-meta t)
-
-(setq mac-command-modifier 'meta
-      mac-option-modifier nil)
-
-(global-set-key (kbd "C-c c") 'kill-ring-save)
-(global-set-key (kbd "C-c v") 'yank)
-(global-set-key (kbd "C-c x") 'kill-region)
+  :config
+  (exec-path-from-shell-initialize))
 
 (provide 'settings-osx)
 ;;; settings-osx.el ends here

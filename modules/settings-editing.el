@@ -27,37 +27,50 @@
 (setq tab-always-indent 'complete)
 
 ;; Company
-(require 'company)
-(require 'company-dabbrev)
-
-(setq company-idle-delay 0.5
+(use-package company
+  :init
+  (setq company-idle-delay 0.5
       company-tooltip-limit 10
       company-minimum-prefix-length 2
-      company-dabbrev-downcase nil)
-;; invert the navigation direction if the the completion popup-isearch-match
-;; is displayed on top (happens near the bottom of windows)
-(setq company-tooltip-flip-when-above t)
+      ;; invert the navigation direction if the the completion popup-isearch-match
+      ;; is displayed on top (happens near the bottom of windows)
+      company-tooltip-flip-when-above t)
+  :config
+  (global-company-mode t))
 
-(global-company-mode 1)
+(use-package company-dabbrev
+  :init
+  (setq company-dabbrev-downcase nil))
 
 ;; whitespace-mode config
-(require 'whitespace)
-(global-whitespace-mode 1)
-(setq whitespace-action '(auto-cleanup)
-      whitespace-line-column 80
-      whitespace-style '(face tabs empty trailing lines-tail))
+(use-package whitespace
+  :ensure t
+  :init
+  (setq whitespace-action '(auto-cleanup)
+        whitespace-line-column 80
+        whitespace-style '(face tabs empty trailing lines-tail))
+  :config
+  (global-whitespace-mode 1))
+
 
 ;; Highlight diff for versionned files
-(require 'diff-hl)
-(global-diff-hl-mode +1)
-(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+(use-package diff-hl
+  :init
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  :config
+  (global-diff-hl-mode +1))
 
 ;; enable on the fly spell check
-(require 'flyspell)
-(setq ispell-program-name "/usr/local/bin/aspell")
+(use-package flyspell
+  :ensure t
+  :init
+  (setq ispell-program-name "/usr/local/bin/aspell"))
 
 ;; visual undo tree
-(global-undo-tree-mode)
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
 
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)

@@ -9,8 +9,8 @@
 (require 'dired)
 
 ;; always delete and copy recursively
-(setq dired-recursive-deletes 'always)
-(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always
+      dired-recursive-copies 'always)
 
 (provide 'settings-dired)
 ;;; settings-dired.el ends here

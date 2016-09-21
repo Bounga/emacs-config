@@ -7,17 +7,24 @@
 ;;; Code:
 
 (require 'package)
-(add-to-list
- 'package-archives
- '("melpa" . "http://melpa.org/packages/")
- t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/")
+             t)
+
 (package-initialize)
 
+;; Bootstrap use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 ;; use paradox for complex package search
-(require 'paradox)
-(setq paradox-github-token "673358454681b557ff442763bcdacdea328ca79c"
-      paradox-automatically-star nil
-      paradox-execute-asynchronously t)
+(use-package paradox
+  :ensure t
+  :init
+  (setq paradox-github-token "673358454681b557ff442763bcdacdea328ca79c"
+        paradox-automatically-star nil
+        paradox-execute-asynchronously t))
 
 (provide 'settings-packages)
 ;;; settings-packages.el ends here

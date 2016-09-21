@@ -6,7 +6,8 @@
 
 ;;; Code:
 
-(require 'diminish)
+(use-package diminish
+  :ensure t)
 
 (diminish 'undo-tree-mode)
 (diminish 'company-mode)

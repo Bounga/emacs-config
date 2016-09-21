@@ -6,13 +6,14 @@
 
 ;;; Code:
 
-(require 'js2-mode)
-(require 'json-mode)
+(use-package js2-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.js\\'"    . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.es6\\'"    . js2-mode))
+  (setq-default js2-basic-offset 2))
 
-(add-to-list 'auto-mode-alist '("\\.js\\'"    . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.es6\\'"    . js2-mode))
-
-(setq-default js2-basic-offset 2)
+(use-package json-mode)
 
 (provide 'settings-js)
 ;;; settings-js ends here
