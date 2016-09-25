@@ -16,14 +16,17 @@
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
   (setq org-directory "~/Documents/org"
-        org-agenda-files (directory-files org-directory nil ".org")
+        org-agenda-files (directory-files org-directory t ".org")
         org-log-done t
         org-hide-leading-stars t
-        org-default-notes-file "~/Documents/org/notes.org"
+        org-default-notes-file (concat org-directory "/notes.org")
         org-src-fontify-natively t)
 
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
-  (add-hook 'org-mode-hook 'flyspell-mode))
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  :config
+  ;; load useful babel modes for inline evaluation
+  (require 'ob-ruby))
 
 (use-package org-bullets
   :ensure t
