@@ -15,6 +15,7 @@
 (diminish 'smartparens-mode)
 (diminish 'global-whitespace-mode)
 (diminish 'abbrev-mode)
+(diminish 'which-key-mode)
 
 (provide 'settings-diminish)
 ;;; settings-diminish.el ends here

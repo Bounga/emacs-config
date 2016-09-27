@@ -38,5 +38,11 @@
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; display available keybindings on slow combination
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
 (provide 'settings-ui)
 ;;; settings-ui.el ends here
