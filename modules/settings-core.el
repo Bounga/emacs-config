@@ -33,7 +33,7 @@
 ;; saner regex syntax
 (use-package re-builder
   :ensure t
-  :init
+  :config
   (setq reb-re-syntax 'string))
 
 ;; avoid annoying alarm bell

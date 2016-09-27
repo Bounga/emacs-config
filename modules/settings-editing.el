@@ -28,30 +28,27 @@
 
 ;; Company
 (use-package company
-  :init
-  (setq company-idle-delay 0.5
-      company-tooltip-limit 10
-      company-minimum-prefix-length 2
-      ;; invert the navigation direction if the the completion popup-isearch-match
-      ;; is displayed on top (happens near the bottom of windows)
-      company-tooltip-flip-when-above t)
   :config
+  (setq company-idle-delay 0.5
+        company-tooltip-limit 10
+        company-minimum-prefix-length 2
+        ;; invert the navigation direction if the the completion popup-isearch-match
+        ;; is displayed on top (happens near the bottom of windows)
+        company-tooltip-flip-when-above t)
   (global-company-mode t))
 
 (use-package company-dabbrev
-  :init
+  :config
   (setq company-dabbrev-downcase nil))
 
 ;; whitespace-mode config
 (use-package whitespace
   :ensure t
-  :init
+  :config
   (setq whitespace-action '(auto-cleanup)
         whitespace-line-column 80
         whitespace-style '(face tabs empty trailing lines-tail))
-  :config
   (global-whitespace-mode 1))
-
 
 ;; Highlight diff for versionned files
 (use-package diff-hl
@@ -63,7 +60,7 @@
 ;; enable on the fly spell check
 (use-package flyspell
   :ensure t
-  :init
+  :config
   (setq ispell-program-name "/usr/local/bin/aspell"))
 
 ;; visual undo tree

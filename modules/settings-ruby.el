@@ -27,6 +27,7 @@
   (add-to-list 'auto-mode-alist '("Thorfile\\'" . enh-ruby-mode))
   (add-to-list 'auto-mode-alist '("\\.jbuilder\\'" . enh-ruby-mode))
 
+  :config
   (setq enh-ruby-deep-indent-paren nil
         enh-ruby-add-encoding-comment-on-save nil))
 

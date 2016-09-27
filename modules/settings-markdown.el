@@ -13,6 +13,7 @@
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+  :config
   ;; (setq markdown-command "marked")
 
   (setq markdown-list-indent-width 2

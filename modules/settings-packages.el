@@ -21,7 +21,7 @@
 ;; use paradox for complex package search
 (use-package paradox
   :ensure t
-  :init
+  :config
   (setq paradox-github-token "673358454681b557ff442763bcdacdea328ca79c"
         paradox-automatically-star nil
         paradox-execute-asynchronously t))

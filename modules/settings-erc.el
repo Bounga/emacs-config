@@ -8,7 +8,7 @@
 
 (use-package erc
   :ensure t
-  :init
+  :config
   (setq erc-prompt-for-password nil
         erc-hide-list '("JOIN" "PART" "QUIT")
         erc-kill-buffer-on-part t
@@ -28,11 +28,10 @@
 (use-package erc-services
   :init
   (load "~/.emacs.d/personal/ercpass.el.gpg")
-
+  :config
   (setq erc-prompt-for-nickserv-password nil
         erc-nickserv-passwords
         `((freenode     (("nick-one" . ,freenode-pass)))))
-  :config
   (erc-services-mode t))
 
 (provide 'settings-erc)

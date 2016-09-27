@@ -8,7 +8,7 @@
 
 (use-package gnus-start
   :ensure gnus
-  :init
+  :config
   (setq gnus-init-file "~/.emacs.d/gnus.el"
         gnus-startup-file "~/.emacs.d/newsrc"
         gnus-directory "~/.emacs.d/News/"

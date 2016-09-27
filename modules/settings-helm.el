@@ -23,6 +23,8 @@
          :map shell-mode-map
          ("C-c C-l" . helm-comint-input-ring))
   :init
+  (require 'helm)
+  (require 'helm-config)
   (add-hook 'eshell-mode-hook
             #'(lambda ()
                 (substitute-key-definition 'eshell-list-history 'helm-eshell-history eshell-mode-map)))
@@ -32,12 +34,12 @@
 
 (use-package helm-projectile
   :ensure t
-  :init
-  (setq helm-split-window-in-side-p         t
-      helm-buffers-fuzzy-matching           t
-      helm-move-to-line-cycle-in-source     t
-      helm-ff-search-library-in-sexp        t
-      helm-ff-file-name-history-use-recentf t))
+  :config
+  (setq helm-split-window-in-side-p           t
+        helm-buffers-fuzzy-matching           t
+        helm-move-to-line-cycle-in-source     t
+        helm-ff-search-library-in-sexp        t
+        helm-ff-file-name-history-use-recentf t))
 
 (provide 'settings-helm)
 ;;; settings-helm.el ends here

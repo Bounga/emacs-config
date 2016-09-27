@@ -7,6 +7,12 @@
 
 ;;; Code:
 
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+;; (package-initialize)
+
 ;; Always load newest byte code
 (setq load-prefer-newer t)
 
@@ -29,6 +35,10 @@
 ;; OSX specific settings
 (when (eq system-type 'darwin)
   (require 'settings-osx "~/.emacs.d/modules/settings-osx.el"))
+
+;; ;; Auto load custom modules
+;; (dolist (file (directory-files modules-dir t "\.el$"))
+;;   load file)
 
 (require 'settings-core "~/.emacs.d/modules/settings-core.el")
 (require 'settings-ui "~/.emacs.d/modules/settings-ui.el")
