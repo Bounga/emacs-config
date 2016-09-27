@@ -15,8 +15,8 @@
 (setq user-full-name "Nicolas Cavigneaux"
       user-mail-address "nico@bounga.org"
 
-      mml2015-sign-with-sender t
-      mml2015-encrypt-to-self t
+      mml-secure-openpgp-sign-with-sender t
+      mml-secure-openpgp-encrypt-to-self t
       mm-verify-option 'always
       mm-decrypt-option 'always
       mm-discouraged-alternatives '("text/html" "text/richtext")
