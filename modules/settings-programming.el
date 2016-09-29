@@ -22,8 +22,10 @@
   :ensure t)
 
 ;; enable smartparens mode
-;; (use-package smartparens-config)
-;; (add-hook 'prog-mode-hook 'smartparens-mode)
+(use-package smartparens-config
+  :ensure smartparens
+  :init
+  (add-hook 'prog-mode-hook 'smartparens-mode))
 
 ;; enable linum mode for programming
 (add-hook 'prog-mode-hook 'linum-mode)
