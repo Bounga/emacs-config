@@ -12,6 +12,9 @@
 ;; remove toolbar
 (tool-bar-mode -1)
 
+;; ease windows movements
+(windmove-default-keybindings)
+
 ;; custom theme
 (use-package flatland-theme
   :ensure t
