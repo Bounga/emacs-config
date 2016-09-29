@@ -18,6 +18,11 @@
   :config
   (load-theme 'flatland t))
 
+;; use nice font
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 140)
+
 ;; enhance mode-line displaying
 (use-package smart-mode-line
   :ensure t
