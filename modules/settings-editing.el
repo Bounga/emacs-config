@@ -61,7 +61,8 @@
 (use-package flyspell
   :ensure t
   :config
-  (setq ispell-program-name "/usr/local/bin/aspell"))
+  (setq ispell-program-name "/usr/local/bin/aspell"
+        ispell-dictionary   "american"))
 
 ;; visual undo tree
 (use-package undo-tree

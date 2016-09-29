@@ -16,7 +16,8 @@
 (use-package flycheck
   :ensure t
   :init
-  (add-hook 'prog-mode-hook 'flycheck-mode))
+  (add-hook 'prog-mode-hook 'flycheck-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode))
 
 (use-package helm-flycheck
   :ensure t)
