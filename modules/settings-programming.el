@@ -12,7 +12,7 @@
   :config
   (yas-global-mode 1))
 
-;; enable flycheck
+;; enable flycheck / flyspell
 (use-package flycheck
   :ensure t
   :init
