@@ -31,7 +31,11 @@
   (setq erc-prompt-for-nickserv-password nil
         erc-nickserv-passwords
         `((freenode     (("nick-one" . ,freenode-pass)))))
-  (erc-services-mode t))
+  (erc-services-mode t)
+  (erc-spelling-mode t))
+
+(use-package erc-hl-nicks
+  :ensure t)
 
 (provide 'settings-erc)
 ;;; settings-erc.el ends here
