@@ -14,8 +14,7 @@
 ;; delete all selected region on del
 (delete-selection-mode t)
 
-;; Auto-pair parentheses, braces, …
-;;(electric-pair-mode 1)
+;; Highlight matching parenthese
 (show-paren-mode 1)
 
 ;; abbrev config
@@ -31,10 +30,7 @@
   :config
   (setq company-idle-delay 0.5
         company-tooltip-limit 10
-        company-minimum-prefix-length 2
-        ;; invert the navigation direction if the the completion popup-isearch-match
-        ;; is displayed on top (happens near the bottom of windows)
-        company-tooltip-flip-when-above t)
+        company-minimum-prefix-length 2)
   (global-company-mode t))
 
 (use-package company-dabbrev
