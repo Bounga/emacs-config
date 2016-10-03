@@ -8,7 +8,7 @@
 
 (use-package coffee-mode
   :ensure t
-  :init
+  :config
   (setq coffee-tab-width 2))
 
 (provide 'settings-coffee)
