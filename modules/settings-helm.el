@@ -34,6 +34,7 @@
 
 (use-package helm-projectile
   :ensure t
+  :defer t
   :config
   (setq helm-split-window-in-side-p           t
         helm-buffers-fuzzy-matching           t

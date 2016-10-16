@@ -18,6 +18,7 @@
 ;; custom theme
 (use-package flatland-theme
   :ensure t
+:defer t
   :config
   (load-theme 'flatland t))
 
@@ -29,6 +30,7 @@
 ;; enhance mode-line displaying
 (use-package smart-mode-line
   :ensure t
+  :defer t
   :init
   (setq sml/no-confirm-load-theme t
         sml/theme 'dark)
@@ -49,6 +51,7 @@
 ;; display available keybindings on slow combination
 (use-package which-key
   :ensure t
+  :defer t
   :config
   (which-key-mode))
 

@@ -8,6 +8,7 @@
 
 (use-package elixir-mode
   :ensure t
+  :defer t
   :config
   ;; Add end keyword when do is entered
   (add-to-list 'elixir-mode-hook
@@ -27,7 +28,8 @@
                    :actions '(insert navigate))))
 
 (use-package alchemist
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'settings-elixir)
 ;;; settings-elixir.el ends here

@@ -8,11 +8,13 @@
 
 (use-package rbenv
   :ensure t
+  :defer t
   :config
   (global-rbenv-mode))
 
 (use-package enh-ruby-mode
   :ensure t
+  :defer t
   :init
   (add-to-list 'auto-mode-alist '("\\.rb\\'" . enh-ruby-mode))
   (add-to-list 'auto-mode-alist '("\\.rake\\'" . enh-ruby-mode))
@@ -35,16 +37,19 @@
 
 (use-package ruby-tools
   :ensure t
+  :defer t
   :init
   (add-hook 'enh-ruby-mode-hook 'ruby-tools-mode))
 
 (use-package inf-ruby
   :ensure t
+  :defer t
   :init
   (add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode))
 
 (use-package robe
   :ensure t
+  :defer t
   :init
   (add-hook 'enh-ruby-mode-hook 'robe-mode)
   (add-hook 'enh-ruby-mode-hook 'eldoc-mode)
@@ -54,11 +59,13 @@
 
 (use-package yard-mode
   :ensure t
+  :defer t
   :init
   (add-hook 'enh-ruby-mode-hook 'yard-mode))
 
 (use-package align
   :ensure t
+  :defer t
   :config
   ;; define rules for automatic alignments
   (add-to-list 'align-rules-list

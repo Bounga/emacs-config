@@ -8,6 +8,7 @@
 
 (use-package web-mode
   :ensure t
+  :defer t
   :init
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))

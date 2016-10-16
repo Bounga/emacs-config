@@ -8,6 +8,7 @@
 
 (use-package exec-path-from-shell
   :ensure t
+  :defer t
   :init
   (defvar mac-option-key-is-meta nil)
   (defvar mac-command-key-is-meta t)

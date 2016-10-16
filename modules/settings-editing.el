@@ -40,6 +40,7 @@
 ;; whitespace-mode config
 (use-package whitespace
   :ensure t
+  :defer t
   :config
   (setq whitespace-action '(auto-cleanup)
         whitespace-line-column 80
@@ -56,6 +57,7 @@
 ;; enable on the fly spell check
 (use-package flyspell
   :ensure t
+  :defer t
   :config
   (setq ispell-program-name "/usr/local/bin/aspell"
         ispell-dictionary   "american"))
@@ -63,8 +65,17 @@
 ;; visual undo tree
 (use-package undo-tree
   :ensure t
+  :defer t
   :config
   (global-undo-tree-mode))
+
+;; Easily expand regions
+(use-package expand-region
+  :ensure t
+  :defer t
+  :defer t
+  :bind (
+         ("C-=" . er/expand-region)))
 
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)
