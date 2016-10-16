@@ -58,6 +58,9 @@
 (use-package flyspell
   :ensure t
   :defer t
+  :init
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode 'flyspell-prog-mode)
   :config
   (setq ispell-program-name "/usr/local/bin/aspell"
         ispell-dictionary   "american"))
