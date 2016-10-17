@@ -38,7 +38,7 @@
 
 ;; Archive outgoing email in Sent folder on imap.gmail.com:
 (setq gnus-message-archive-method '(nnimap "imap.gmail.com")
-    gnus-message-archive-group "[Gmail]/Sent Mail")
+      gnus-message-archive-group "[Gmail]/Sent Mail")
 
 ;; Send email through SMTP
 (setq message-send-mail-function 'smtpmail-send-it
