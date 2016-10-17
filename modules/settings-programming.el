@@ -43,5 +43,10 @@
   :init
   (add-hook 'prog-mode-hook 'fic-mode))
 
+;; Auto-fill comments
+(add-hook 'prog-mode-hook (lambda ()
+                            (setq-local comment-auto-fill-only-comments t)
+                            (auto-fill-mode 1)))
+
 (provide 'settings-programming)
 ;;; settings-programming ends here

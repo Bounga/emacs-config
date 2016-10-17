@@ -27,5 +27,10 @@
   :init
   (add-hook 'monky-log-edit-mode-hook 'turn-on-auto-fill))
 
+;; Avoid annoying window creation on Ediff startup
+(use-package ediff
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+
 (provide 'settings-versioning)
 ;;; settings-versioning ends here

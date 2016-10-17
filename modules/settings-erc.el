@@ -31,8 +31,13 @@
   (setq erc-prompt-for-nickserv-password nil
         erc-nickserv-passwords
         `((freenode     (("nick-one" . ,freenode-pass)))))
-  (erc-services-mode t)
-  (erc-spelling-mode t))
+  (erc-services-mode t))
+
+(use-package erc-spelling
+  :config
+  (erc-spelling-mode t)
+  (setq erc-spelling-dictionaries '(("irc.freenode.net:6667" "american")
+                                    ("#emacsfr" "french"))))
 
 (use-package erc-hl-nicks
   :ensure t)

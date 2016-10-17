@@ -56,6 +56,9 @@
 ;; enable on the fly spell check
 (use-package flyspell
   :ensure t
+  :init
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode 'flyspell-prog-mode)
   :config
   (setq ispell-program-name "/usr/local/bin/aspell"
         ispell-dictionary   "american"))
@@ -65,6 +68,12 @@
   :ensure t
   :config
   (global-undo-tree-mode))
+
+;; Easily expand regions
+(use-package expand-region
+  :ensure t
+  :bind (
+         ("C-=" . er/expand-region)))
 
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)

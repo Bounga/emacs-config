@@ -13,7 +13,8 @@
   (defvar mac-command-key-is-meta t)
 
   (setq mac-command-modifier 'meta
-        mac-option-modifier nil)
+        mac-option-modifier 'super
+        mac-right-option-modifier nil)
 
   :config
   (exec-path-from-shell-initialize))
