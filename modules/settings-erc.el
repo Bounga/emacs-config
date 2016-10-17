@@ -8,7 +8,6 @@
 
 (use-package erc
   :ensure t
-  :defer t
   :config
   (setq erc-prompt-for-password nil
         erc-hide-list '("JOIN" "PART" "QUIT")
@@ -33,13 +32,10 @@
         erc-nickserv-passwords
         `((freenode     (("nick-one" . ,freenode-pass)))))
   (erc-services-mode t)
-  (erc-spelling-mode t)
-  (setq erc-spelling-dictionaries '(("irc.freenode.net:6667" "american")
-                                      ("#emacsfr" "french"))))
+  (erc-spelling-mode t))
 
 (use-package erc-hl-nicks
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (provide 'settings-erc)
 ;;; settings-erc.el ends here

@@ -28,13 +28,11 @@
 
 ;; clean up obsolete buffers automatically
 (use-package midnight
-  :ensure t
-  :defer t)
+  :ensure t)
 
 ;; saner regex syntax
 (use-package re-builder
   :ensure t
-  :defer t
   :config
   (setq reb-re-syntax 'string))
 

@@ -8,7 +8,6 @@
 
 (use-package org
   :ensure t
-:defer t
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c b" . org-iswitchb)
@@ -31,7 +30,6 @@
 
 (use-package org-bullets
   :ensure t
-:defer t
   :init
   (add-hook 'org-mode-hook
             (lambda()

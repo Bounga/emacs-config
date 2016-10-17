@@ -8,7 +8,6 @@
 
 (use-package multi-term
   :ensure t
-  :defer t
   :bind (("C-c t" . multi-term-dedicated-toggle))
   :init
   (setq multi-term-program "/usr/local/bin/zsh"

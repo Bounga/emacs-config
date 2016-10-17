@@ -7,8 +7,7 @@
 ;;; Code:
 
 (use-package diminish
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (diminish 'undo-tree-mode)
 (diminish 'company-mode)

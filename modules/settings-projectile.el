@@ -8,7 +8,6 @@
 
 (use-package projectile
   :ensure t
-  :defer t
   :config
   (setq projectile-switch-project-action 'projectile-find-file
         projectile-completion-system 'helm
@@ -20,12 +19,10 @@
   (helm-projectile-on))
 
 (use-package ag
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package helm-ag
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (provide 'settings-projectile)
 ;;; settings-projectile ends here

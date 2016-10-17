@@ -9,7 +9,6 @@
 ;; enable Magit
 (use-package magit
   :ensure t
-:defer t
   :bind (("C-x g" . magit-status))
   :init
   ;; default settings
@@ -19,21 +18,14 @@
 ;; GitFlow for Magit
 (use-package magit-gitflow
   :ensure t
-  :defer t
   :init
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 
 ;; enable monky (magit for hg)
 (use-package monky
   :ensure t
-  :defer t
   :init
   (add-hook 'monky-log-edit-mode-hook 'turn-on-auto-fill))
-
-;; Avoid annoying window creation on Ediff startup
-(use-package ediff
-  :config
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (provide 'settings-versioning)
 ;;; settings-versioning ends here
