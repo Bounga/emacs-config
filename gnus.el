@@ -85,5 +85,10 @@
             (interactive "P")
             (gnus-group-list-all-groups 5)))
 
+;; Attachments handling
+(mailcap-add-mailcap-entry "application" "pdf" '((viewer . "qlmanage -p %s") (type . "application/pdf")))
+(mailcap-add-mailcap-entry "application" "*" '((viewer . "open %s") (type . "application/*")))
+(mailcap-add-mailcap-entry "image" "*" '((viewer . "open %s") (type . "image/*")))
+
 (provide 'gnus)
 ;;; gnus.el ends here
