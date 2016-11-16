@@ -9,6 +9,7 @@
 ;; enable snippets
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
 
@@ -25,6 +26,7 @@
 ;; enable smartparens mode
 (use-package smartparens-config
   :ensure smartparens
+  :diminish smartparens-mode
   :init
   (add-hook 'prog-mode-hook 'smartparens-mode))
 

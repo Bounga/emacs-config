@@ -44,7 +44,6 @@
 (require 'settings-coffee "~/.emacs.d/modules/settings-coffee.el")
 (require 'settings-core "~/.emacs.d/modules/settings-core.el")
 (require 'settings-css "~/.emacs.d/modules/settings-css.el")
-(require 'settings-diminish "~/.emacs.d/modules/settings-diminish.el")
 (require 'settings-dired "~/.emacs.d/modules/settings-dired.el")
 (require 'settings-editing "~/.emacs.d/modules/settings-editing.el")
 (require 'settings-elixir "~/.emacs.d/modules/settings-elixir.el")

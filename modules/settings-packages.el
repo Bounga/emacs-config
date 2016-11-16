@@ -26,5 +26,8 @@
         paradox-automatically-star nil
         paradox-execute-asynchronously t))
 
+(use-package diminish
+  :ensure t)
+
 (provide 'settings-packages)
 ;;; settings-packages.el ends here

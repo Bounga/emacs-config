@@ -8,6 +8,7 @@
 ;;; Code:
 (use-package helm-config
   :ensure helm
+  :diminish helm-mode
   :bind (("M-x" . helm-M-x)
          ("M-y" . helm-show-kill-ring)
          ("C-x b" . helm-mini)

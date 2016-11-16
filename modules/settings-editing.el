@@ -18,15 +18,19 @@
 (show-paren-mode 1)
 
 ;; abbrev config
-(add-hook 'text-mode-hook 'abbrev-mode)
-(setq abbrev-file-name "~/.emacs.d/abbrev_defs"
-      save-abbrevs t)
+(use-package abbrev-mode
+  :diminish abbrev-mode
+  :init
+  (add-hook 'text-mode-hook 'abbrev-mode)
+  (setq abbrev-file-name "~/.emacs.d/abbrev_defs"
+        save-abbrevs t))
 
 ;; smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
 
 ;; Company
 (use-package company
+  :diminish company-mode
   :config
   (setq company-idle-delay 0.5
         company-tooltip-limit 10
@@ -40,6 +44,7 @@
 ;; whitespace-mode config
 (use-package whitespace
   :ensure t
+  :diminish global-whitespace-mode
   :config
   (setq whitespace-action '(auto-cleanup)
         whitespace-line-column 80
@@ -67,6 +72,7 @@
 ;; visual undo tree
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :config
   (global-undo-tree-mode))
 
@@ -79,6 +85,7 @@
 ;; Easily move and duplicate lines
 (use-package move-dup
   :ensure t
+  :diminish move-dup-mode
   :config
   (global-move-dup-mode))
 

@@ -6,8 +6,9 @@
 
 ;;; Code:
 
-(use-package smartparens
-  :ensure t)
+(use-package smartparens-config
+  :ensure smartparens
+  :diminish smartparens-mode)
 
 (use-package elixir-mode
   :ensure t
