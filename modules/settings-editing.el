@@ -76,6 +76,12 @@
   :bind (
          ("C-=" . er/expand-region)))
 
+;; Easily move and duplicate lines
+(use-package move-dup
+  :ensure t
+  :config
+  (global-move-dup-mode))
+
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)
 
