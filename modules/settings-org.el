@@ -19,6 +19,7 @@
         org-agenda-files (directory-files org-directory t ".org")
         org-log-done t
         org-hide-leading-stars t
+        org-startup-indented t
         org-default-notes-file (concat org-directory "/notes.org")
         org-src-fontify-natively t)
 
