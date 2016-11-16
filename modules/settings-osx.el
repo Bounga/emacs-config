@@ -17,6 +17,7 @@
         mac-right-option-modifier nil)
 
   :config
+  (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize))
 
 (provide 'settings-osx)
