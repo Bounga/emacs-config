@@ -48,6 +48,7 @@
 
 ;; Highlight diff for versionned files
 (use-package diff-hl
+  :ensure t
   :init
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   :config
