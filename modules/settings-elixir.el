@@ -6,6 +6,9 @@
 
 ;;; Code:
 
+(use-package smartparens
+  :ensure t)
+
 (use-package elixir-mode
   :ensure t
   :config
