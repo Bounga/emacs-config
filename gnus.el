@@ -24,7 +24,7 @@
       gnus-fetch-old-headers t
       gnus-message-archive-group nil)
 
-;; IMAP server info
+;; personal IMAP server info
 (setq gnus-select-method
       '(nnimap "gmail"
                (nnimap-address "imap.gmail.com")
@@ -36,6 +36,16 @@
                (nnmail-expiry-target "nnimap+gmail:[Gmail]/Trash")
                (nnmail-expiry-wait (quote immediate))))
 
+;; work IMAP server info
+(setq gnus-secondary-select-methods
+      '((nnimap "work"
+                (nnimap-address "imap.synbioz.com")
+                (nnimap-server-port "imaps")
+                (nnimap-stream ssl)
+                (nnir-search-engine imap)
+                (nnmail-expiry-target "nnimap+work:Trash")
+                (nnmail-expiry-wait (quote immediate)))))
+
 ;; Archive outgoing email in Sent folder on imap.gmail.com:
 (setq gnus-message-archive-method '(nnimap "imap.gmail.com")
       gnus-message-archive-group "[Gmail]/Sent Mail")
@@ -45,6 +55,9 @@
       smtpmail-default-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
       smtpmail-local-domain "bounga")
+
+;; Use topic mode
+(add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 
 ;; Sort emails by descending date
 (setq gnus-thread-sort-functions
@@ -60,7 +73,11 @@
       '((".*" ; Matches all groups of messages
          (address "nico@bounga.org"))
         ((header "to" "nicolas@cavigneaux.net")
-         (address "nicolas@cavigneaux.net"))))
+         (address "nicolas@cavigneaux.net"))
+        ("work"
+         (address "ncavigneaux@synbioz.com")
+         (organization "Synbioz")
+         (signature-file "~/.signature-work"))))
 
 ;; Show all subscribed groups in groups buffer
 (add-hook 'gnus-started-hook
