@@ -24,5 +24,11 @@
 
 (calendar-show-week t)
 
+(use-package solar
+  :config
+  (setq calendar-latitude 50.4
+        calendar-longitude 2.8333
+        calendar-location-name "Avion, FR"))
+
 (provide 'settings-calendar)
 ;;; settings-calendar.el ends here
