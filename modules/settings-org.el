@@ -6,6 +6,9 @@
 
 ;;; Code:
 
+(use-package ob-elixir
+  :ensure t)
+
 (use-package org
   :ensure t
   :bind (("C-c l" . org-store-link)
@@ -28,6 +31,8 @@
   (setq org-capture-templates
       (quote (("t" "Task" entry (file+headline (concat org-directory "/notes.org") "Tasks")
                "* TODO %?\n%u\n%a\n")
+              ("n" "Note" entry (file+headline (concat org-directory "/notes.org") "Notes")
+               "* TODO %?\n%u\n%a\n")
               ("w" "Work" entry (file+headline (concat org-directory "/work.org") "Tasks")
                "* TODO %?\n%u\n%a\n")
               ("h" "Home" entry (file+headline (concat org-directory "/home.org") "Tasks")
@@ -42,7 +47,23 @@
   (add-hook 'org-mode-hook 'flyspell-mode)
   :config
   ;; load useful babel modes for inline evaluation
-  (require 'ob-ruby))
+  (org-babel-do-load-languages
+   (quote org-babel-load-languages)
+   (quote ((emacs-lisp . t)
+           (elixir . t)
+           (ruby . t)
+           (css . t)
+           (sh . t)
+           (org . t)
+           (sass . t)
+           (latex . t)))))
+
+;; Exporters
+(use-package ox-gfm
+  :ensure t)
+
+(use-package ox-twbs
+  :ensure t)
 
 (use-package org-bullets
   :ensure t
