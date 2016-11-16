@@ -13,7 +13,8 @@
   (add-to-list 'auto-mode-alist '("\\.es6\\'"    . js2-mode))
   (setq-default js2-basic-offset 2))
 
-(use-package json-mode)
+(use-package json
+  :ensure t)
 
 (provide 'settings-js)
 ;;; settings-js ends here
