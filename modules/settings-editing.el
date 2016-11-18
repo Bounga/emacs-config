@@ -25,9 +25,6 @@
   (setq abbrev-file-name "~/.emacs.d/abbrev_defs"
         save-abbrevs t))
 
-;; smart tab behavior - indent or complete
-(setq tab-always-indent 'complete)
-
 ;; Company
 (use-package company
   :diminish company-mode
