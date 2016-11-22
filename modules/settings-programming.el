@@ -50,5 +50,11 @@
                             (setq-local comment-auto-fill-only-comments t)
                             (auto-fill-mode 1)))
 
+;; Tags handling for better navigation
+(use-package ggtags
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook 'ggtags-mode))
+
 (provide 'settings-programming)
 ;;; settings-programming ends here
