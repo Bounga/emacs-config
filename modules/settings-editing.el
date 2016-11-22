@@ -59,6 +59,8 @@
 ;; enable on the fly spell check
 (use-package flyspell
   :ensure t
+  :bind
+  ("C-;" . flyspell-auto-correct-previous-word)
   :init
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode 'flyspell-prog-mode)
