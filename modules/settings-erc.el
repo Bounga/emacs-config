@@ -21,7 +21,7 @@
         erc-nick "Bounga"
         erc-user-full-name "Nicolas Cavigneaux"
         erc-server "irc.freenode.net"
-        erc-autojoin-channels-alist '(("freenode.net" "#ruby" "#elixir-lang" "#emacs" "#emacsfr")))
+        erc-autojoin-channels-alist '(("freenode.net" "#ruby" "#elixir-lang" "#emacs" "#emacsfr" "#synbioz")))
   (erc-truncate-mode t))
 
 (use-package erc-services
