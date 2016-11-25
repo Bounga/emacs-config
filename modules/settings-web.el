@@ -15,7 +15,6 @@
 
   :config
   ;; make web-mode play nice with smartparens
-  (setq web-mode-enable-auto-pairing nil)
   (sp-with-modes '(web-mode)
     (sp-local-pair "%" "%"
                    :unless '(sp-in-string-p)
