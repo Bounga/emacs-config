@@ -39,5 +39,8 @@
 ;; avoid annoying alarm bell
 (setq ring-bell-function 'ignore)
 
+;; ensure external copy to clipboard is always saved to kill ring
+(setq save-interprogram-paste-before-kill t)
+
 (provide 'settings-core)
 ;;; settings-core.el ends here
