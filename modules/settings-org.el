@@ -42,8 +42,8 @@
 
   ;; targets for refiling
   (setq org-refile-targets (quote (
-                                   (nil :maxlevel . 2)
-                                   (org-agenda-files :maxlevel . 2))))
+                                   (nil :maxlevel . 3)
+                                   (org-agenda-files :maxlevel . 3))))
 
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
   (add-hook 'org-mode-hook 'flyspell-mode)
