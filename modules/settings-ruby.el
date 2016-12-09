@@ -92,5 +92,8 @@
                  (repeat . nil)
                  (modes  . '(enh-ruby-mode)))))
 
+(use-package slim-mode
+  :ensure t)
+
 (provide 'settings-ruby)
 ;;; settings-ruby.el ends here
