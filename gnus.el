@@ -11,6 +11,12 @@
 (require 'gnus-async)
 (require 'gnus-msg)
 
+(use-package google-contacts
+  :ensure t
+  :config
+  (require 'google-contacts-gnus)
+  (require 'google-contacts-message))
+
 ;; Personal Information
 (setq user-full-name "Nicolas Cavigneaux"
       user-mail-address "nico@bounga.org"
