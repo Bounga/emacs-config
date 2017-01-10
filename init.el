@@ -29,6 +29,9 @@
 ;; add directories to Emacs's `load-path'
 (add-to-list 'load-path modules-dir)
 
+;; Load private info
+(load "~/.emacs.d/personal/credentials.el.gpg")
+
 ;; Modules loading
 (require 'settings-packages "~/.emacs.d/modules/settings-packages.el")
 

@@ -25,12 +25,10 @@
   (erc-truncate-mode t))
 
 (use-package erc-services
-  :init
-  (load "~/.emacs.d/personal/ercpass.el.gpg")
   :config
   (setq erc-prompt-for-nickserv-password nil
         erc-nickserv-passwords
-        `((freenode     (("nick-one" . ,freenode-pass)))))
+        `((freenode     (("nick-one" . ,private/freenode-password)))))
   (erc-services-mode t))
 
 (use-package erc-spelling
