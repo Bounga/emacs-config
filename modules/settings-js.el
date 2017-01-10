@@ -9,9 +9,11 @@
 (use-package js2-mode
   :ensure t
   :init
-  (add-to-list 'auto-mode-alist '("\\.js\\'"    . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.es6\\'"    . js2-mode))
-  (setq-default js2-basic-offset 2))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.es6\\'" . js2-mode))
+  :config
+  (setq js2-basic-offset 2
+        js2-bounce-indent-p t))
 
 (use-package json
   :ensure t)
