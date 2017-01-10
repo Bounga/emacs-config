@@ -32,13 +32,19 @@
   (defvar org-capture-templates)
   (setq org-capture-templates
       (quote (("t" "Task" entry (file+headline (concat org-directory "/notes.org") "Tasks")
-               "* TODO %?\n%u\n%a\n")
+               "* TODO %?\n%u\n%a")
               ("n" "Note" entry (file+headline (concat org-directory "/notes.org") "Notes")
-               "* TODO %?\n%u\n%a\n")
+               "* %?\n%u")
               ("w" "Work" entry (file+headline (concat org-directory "/work.org") "Tasks")
-               "* TODO %?\n%u\n%a\n")
+               "* TODO %?\n%u\n%a")
               ("h" "Home" entry (file+headline (concat org-directory "/home.org") "Tasks")
-               "* TODO %?\n%u\n%a\n"))))
+               "* TODO %?\n%u")
+              ("l" "Link" entry (file+headline (concat org-directory "/links.org") "Links")
+               "* %?\n%T" :prepend t)
+              ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
+               "* %?\nEntered on %U\n  %i\n  %a")
+              ("a" "Appointment" entry (file (concat org-directory "/gcal.org"))
+               "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n"))))
 
   ;; targets for refiling
   (setq org-refile-targets (quote (
@@ -73,6 +79,17 @@
   (add-hook 'org-mode-hook
             (lambda()
               (org-bullets-mode t))))
+
+;; Sync with gcal
+(use-package org-gcal
+  :ensure t
+  :config
+  (setq org-gcal-client-id private/org-gcal-client-id
+        org-gcal-client-secret private/org-gcal-client-secret
+        org-gcal-file-alist `((,private/org-gcal-username . ,(expand-file-name "gcal.org" org-directory)))))
+
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
 
 (provide 'settings-org)
 ;;; settings-org ends here
