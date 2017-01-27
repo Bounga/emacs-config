@@ -14,6 +14,9 @@
   (add-to-list 'auto-mode-alist '("\\.eex\\'" . web-mode))
 
   :config
+  ;; Auto-close tags
+  (setq web-mode-enable-auto-closing t)
+
   ;; make web-mode play nice with smartparens
   (sp-with-modes '(web-mode)
     (sp-local-pair "%" "%"
