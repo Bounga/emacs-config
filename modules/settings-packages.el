@@ -22,7 +22,7 @@
 (use-package paradox
   :ensure t
   :config
-  (setq paradox-github-token "673358454681b557ff442763bcdacdea328ca79c"
+  (setq paradox-github-token private/paradox-github-token
         paradox-automatically-star nil
         paradox-execute-asynchronously t))
 
