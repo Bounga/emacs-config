@@ -91,5 +91,8 @@
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)
 
+;; enable erase-buffer command
+(put 'erase-buffer 'disabled nil)
+
 (provide 'settings-editing)
 ;;; settings-editing.el ends here
