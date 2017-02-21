@@ -19,5 +19,12 @@
   ;; turn off annoying auto-compile on save
   (setq scss-compile-at-save nil))
 
+;; Emmet
+(use-package emmet-mode
+  :ensure t
+  :config
+  (add-hook 'css-mode-hook 'emmet-mode)
+  (add-hook 'scss-mode-hook 'emmet-mode))
+
 (provide 'settings-css)
 ;;; settings-css.el ends here
