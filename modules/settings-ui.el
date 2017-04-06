@@ -16,10 +16,10 @@
 (windmove-default-keybindings)
 
 ;; custom theme
-(use-package flatland-theme
+(use-package color-theme-sanityinc-tomorrow
   :ensure t
   :config
-  (load-theme 'flatland t))
+  (load-theme 'sanityinc-tomorrow-night t))
 
 ;; use nice font
 (set-face-attribute 'default nil
