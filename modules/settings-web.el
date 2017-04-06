@@ -29,6 +29,9 @@
     (sp-local-tag "=" "<%= " " %>")
     (sp-local-tag "#" "<%# " " %>")))
 
+(use-package slim-mode
+  :ensure t)
+
 (use-package emmet-mode
   :ensure t
   :config
