@@ -19,8 +19,14 @@
   ;; Ensure utf-8 is used to be able to display special characters
   (add-hook 'term-exec-hook
             (function
-             (lambda ()
-               (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix)))))
+             (lambda()
+               (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))))
+
+  ;; Add hook to clear buffer in term-mode
+  (add-hook 'term-mode-hook
+            (lambda()
+              (add-to-list 'term-bind-key-alist '("C-c C-k" . erase-buffer)))))
+
 
 (provide 'settings-terminal)
 ;;; settings-terminal ends here
