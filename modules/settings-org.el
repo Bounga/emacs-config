@@ -19,7 +19,7 @@
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
   (setq org-directory "~/Documents/org"
-        org-agenda-files (directory-files org-directory t ".org")
+        org-agenda-files (directory-files org-directory t ".org$")
         org-agenda-include-diary t
         org-log-done t
         org-hide-leading-stars t
@@ -40,11 +40,12 @@
               ("h" "Home" entry (file+headline (concat org-directory "/home.org") "Tasks")
                "* TODO %?\n%u")
               ("l" "Link" entry (file+headline (concat org-directory "/links.org") "Links")
-               "* %?\n%T" :prepend t)
+               "* %^L %^g \n%T" :prepend t)
               ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
                "* %?\nEntered on %U\n  %i\n  %a")
               ("a" "Appointment" entry (file (concat org-directory "/gcal.org"))
                "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n"))))
+
 
   ;; targets for refiling
   (setq org-refile-targets (quote (
