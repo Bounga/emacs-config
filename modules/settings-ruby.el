@@ -17,7 +17,8 @@
   (add-hook 'ruby-mode-hook 'subword-mode)
 
   :config
-  (setq ruby-deep-indent-paren nil))
+  (setq ruby-deep-indent-paren nil
+        ruby-insert-encoding-magic-comment nil))
 
 (use-package ruby-tools
   :ensure t
