@@ -26,6 +26,10 @@
                     :family "Source Code Pro"
                     :height 140)
 
+;; customize cursor
+(setq-default cursor-type 'bar)
+(set-cursor-color "#ffffff")
+
 ;; enhance mode-line displaying
 (use-package smart-mode-line
   :ensure t
