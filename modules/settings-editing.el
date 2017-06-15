@@ -45,7 +45,8 @@
   :config
   (setq whitespace-action '(auto-cleanup)
         whitespace-line-column 80
-        whitespace-style '(face tabs empty trailing lines-tail))
+        whitespace-style '(face tabs empty trailing lines-tail)
+        whitespace-global-modes '(prog-mode ruby-mode))
   (global-whitespace-mode 1))
 
 ;; Highlight diff for versionned files
