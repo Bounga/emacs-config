@@ -18,7 +18,9 @@
 
   (setq markdown-list-indent-width 2
         markdown-unordered-list-item-prefix "  - "
-        markdown-use-pandoc-style-yaml-metadata t))
+        markdown-use-pandoc-style-yaml-metadata t)
+
+  (add-hook 'markdown-mode-hook 'turn-on-auto-fill))
 
 (provide 'settings-markdown)
 ;;; settings-markdown.el ends here
