@@ -35,7 +35,8 @@
 (use-package emmet-mode
   :ensure t
   :config
-  (add-hook 'web-mode-hook 'emmet-mode))
+  (add-hook 'web-mode-hook 'emmet-mode)
+  (add-hook 'vue-mode-hook 'emmet-mode))
 
 (provide 'settings-web)
 ;;; settings-web ends here

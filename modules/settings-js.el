@@ -18,5 +18,8 @@
 (use-package json
   :ensure t)
 
+(use-package vue-mode
+  :ensure t)
+
 (provide 'settings-js)
 ;;; settings-js ends here
