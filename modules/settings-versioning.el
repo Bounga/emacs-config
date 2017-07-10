@@ -30,7 +30,8 @@
 ;; Avoid annoying window creation on Ediff startup
 (use-package ediff
   :config
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-horizontally))
 
 (provide 'settings-versioning)
 ;;; settings-versioning ends here
