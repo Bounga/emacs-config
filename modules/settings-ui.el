@@ -48,6 +48,12 @@
 (blink-cursor-mode 10)
 (global-hl-line-mode t)
 
+;; Highlight current line number
+(use-package hlinum
+  :ensure t
+  :config
+  (hlinum-activate))
+
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
