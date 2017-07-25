@@ -9,8 +9,9 @@
 ;; prevent silly initial splash screen
 (setq inhibit-splash-screen t)
 
-;; remove toolbar
+;; remove toolbar and menu bar
 (tool-bar-mode -1)
+(menu-bar-mode -1)
 
 ;; ease windows movements
 (windmove-default-keybindings)
