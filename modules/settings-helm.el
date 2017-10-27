@@ -20,9 +20,7 @@
          ("C-h C-l" . helm-locate-library)
          ("C-c f" . helm-recentf)
          :map minibuffer-local-map
-         ("C-c C-l" . helm-minibuffer-history)
-         :map shell-mode-map
-         ("C-c C-l" . helm-comint-input-ring))
+         ("C-c C-l" . helm-minibuffer-history))
   :init
   (require 'helm)
   (require 'helm-config)
