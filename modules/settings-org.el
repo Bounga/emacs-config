@@ -28,6 +28,10 @@
         org-src-fontify-natively t
         org-confirm-babel-evaluate nil)
 
+  (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org")
+        org-mobile-files org-agenda-files
+        org-mobile-directory "~/Dropbox/Applications/MobileOrg")
+
   ;; Capture templates
   (defvar org-capture-templates)
   (setq org-capture-templates
