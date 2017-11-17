@@ -10,6 +10,8 @@
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
+  :init
+  (add-to-list 'company-backends 'company-yasnippet)
   :config
   (yas-global-mode 1))
 
