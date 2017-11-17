@@ -28,28 +28,23 @@
         org-src-fontify-natively t
         org-confirm-babel-evaluate nil)
 
-  (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org")
-        org-mobile-files org-agenda-files
-        org-mobile-directory "~/Dropbox/Applications/MobileOrg")
-
   ;; Capture templates
   (defvar org-capture-templates)
   (setq org-capture-templates
-      (quote (("t" "Task" entry (file+headline (concat org-directory "/notes.org") "Tasks")
+      (quote (("t" "Task" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Tasks")
                "* TODO %?\n%u\n%a")
-              ("n" "Note" entry (file+headline (concat org-directory "/notes.org") "Notes")
+              ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
                "* %?\n%u")
-              ("w" "Work" entry (file+headline (concat org-directory "/work.org") "Tasks")
+              ("w" "Work" entry (file+headline (lambda () (concat org-directory "/work.org")) "Tasks")
                "* TODO %?\n%u\n%a")
-              ("h" "Home" entry (file+headline (concat org-directory "/home.org") "Tasks")
+              ("h" "Home" entry (file+headline (lambda () (concat org-directory "/home.org")) "Tasks")
                "* TODO %?\n%u")
-              ("l" "Link" entry (file+headline (concat org-directory "/links.org") "Links")
+              ("l" "Link" entry (file+headline (lambda () (concat org-directory "/links.org")) "Links")
                "* %^L %^g \n%T" :prepend t)
-              ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
+              ("j" "Journal" entry (file+olp+datetree (lambda () (concat org-directory "/journal.org")))
                "* %?\nEntered on %U\n  %i\n  %a")
-              ("a" "Appointment" entry (file (concat org-directory "/gcal.org"))
+              ("a" "Appointment" entry (file (lambda () (concat org-directory "/gcal.org")))
                "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n"))))
-
 
   ;; targets for refiling
   (setq org-refile-targets (quote (
