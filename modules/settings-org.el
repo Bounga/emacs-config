@@ -41,7 +41,7 @@
               ("h" "Home" entry (file+headline (lambda () (concat org-directory "/home.org")) "Tasks")
                "* TODO %?\n%u")
               ("l" "Link" entry (file+headline (lambda () (concat org-directory "/links.org")) "Links")
-               "* %^L %^g \n%U" :prepend t)
+               "* TODO %^L %^g \n%U" :prepend t)
               ("j" "Journal" entry (file+olp+datetree (lambda () (concat org-directory "/journal.org")))
                "* %?\nEntered on %U\n  %i\n  %a" :clock-in t :clock-resume t :clock-keep t)
               ("a" "Appointment" entry (file (lambda () (concat org-directory "/gcal.org")))
