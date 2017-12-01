@@ -26,7 +26,8 @@
         org-startup-indented t
         org-default-notes-file (concat org-directory "/notes.org")
         org-src-fontify-natively t
-        org-confirm-babel-evaluate nil)
+        org-confirm-babel-evaluate nil
+        org-clock-idle-time 10)
 
   ;; Capture templates
   (defvar org-capture-templates)
@@ -40,9 +41,9 @@
               ("h" "Home" entry (file+headline (lambda () (concat org-directory "/home.org")) "Tasks")
                "* TODO %?\n%u")
               ("l" "Link" entry (file+headline (lambda () (concat org-directory "/links.org")) "Links")
-               "* %^L %^g \n%T" :prepend t)
+               "* %^L %^g \n%U" :prepend t)
               ("j" "Journal" entry (file+olp+datetree (lambda () (concat org-directory "/journal.org")))
-               "* %?\nEntered on %U\n  %i\n  %a")
+               "* %?\nEntered on %U\n  %i\n  %a" :clock-in t :clock-resume t :clock-keep t)
               ("a" "Appointment" entry (file (lambda () (concat org-directory "/gcal.org")))
                "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n"))))
 
