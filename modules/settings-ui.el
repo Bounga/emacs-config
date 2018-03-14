@@ -31,6 +31,9 @@
 (setq-default cursor-type 'bar)
 (set-cursor-color "#ffffff")
 
+;; more contrast for selected region
+(set-face-attribute 'region nil :background "#666")
+
 ;; enhance mode-line displaying
 (use-package smart-mode-line
   :ensure t
