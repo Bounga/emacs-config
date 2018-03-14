@@ -10,7 +10,7 @@
   :ensure t
   :bind (("C-c t" . multi-term-dedicated-toggle))
   :init
-  (setq multi-term-program "/usr/local/bin/zsh"
+  (setq multi-term-program "/usr/local/bin/fish"
         multi-term-dedicated-select-after-open-p t)
 
   ;; Disable Yasnippet completion in terminal, use native one
