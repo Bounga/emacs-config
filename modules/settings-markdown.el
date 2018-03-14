@@ -14,7 +14,7 @@
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
   :config
-  ;; (setq markdown-command "marked")
+  (setq markdown-command "/usr/local/bin/marked")
 
   (setq markdown-list-indent-width 2
         markdown-unordered-list-item-prefix "  - "
