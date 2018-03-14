@@ -6,23 +6,19 @@
 
 ;;; Code:
 
-(defun calendar-show-week (arg)
-  "Display week number in calendar-mode if ARG is t."
-  (interactive "P")
-  (copy-face font-lock-constant-face 'calendar-iso-week-face)
-  (set-face-attribute
-   'calendar-iso-week-face nil :height 0.7)
-  (setq calendar-intermonth-text
-        (and arg
-             '(propertize
-               (format
-                "%2d"
-                (car (calendar-iso-from-absolute
-                      (calendar-absolute-from-gregorian
-                       (list month day year)))))
-               'font-lock-face 'calendar-iso-week-face))))
+(setq calendar-week-start-day 1)
 
-(calendar-show-week t)
+(setq calendar-intermonth-text
+      '(propertize
+        (format "%2d"
+                (car
+                 (calendar-iso-from-absolute
+                  (calendar-absolute-from-gregorian (list month day year)))))
+        'font-lock-face 'font-lock-warning-face))
+
+(setq calendar-intermonth-header
+      (propertize "Wk"
+                  'font-lock-face 'font-lock-keyword-face))
 
 (use-package solar
   :config
