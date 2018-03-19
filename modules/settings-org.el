@@ -6,21 +6,16 @@
 
 ;;; Code:
 
-(use-package ob-elixir
-  :ensure t)
-
 (use-package org
   :ensure t
+  :mode ("\\.org\\'" . org-mode)
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c b" . org-iswitchb)
          ("C-c c" . org-capture))
   :init
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-
   (setq org-directory "~/Documents/org"
         org-agenda-files (directory-files org-directory t ".org$")
-        org-agenda-include-diary t
         org-log-done t
         org-hide-leading-stars t
         org-startup-indented t
@@ -29,41 +24,18 @@
         org-confirm-babel-evaluate nil
         org-clock-idle-time 10
         org-global-properties '(("Effort_ALL". "0 0:10 0:20 0:30 1:00 2:00 3:00 4:00 6:00 8:00"))
-        org-columns-default-format '"%38ITEM(Details) %TAGS(Context) %7TODO(To Do) %5Effort(Time){:} %6CLOCKSUM(Clock)")
-
-  (add-to-list 'org-agenda-custom-commands
-               '("w" "Work agenda and TODOs"
-                 ((agenda)
-                  (tags-todo "CATEGORY=\"work\"")
-                  )
-                 ((org-agenda-category-filter-preset '("+work")))))
-
-  ;; Capture templates
-  (defvar org-capture-templates)
-  (setq org-capture-templates
-      (quote (("t" "Task" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Tasks")
-               "* TODO %?\n%u\n%a")
-              ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
-               "* %?\n%u")
-              ("w" "Work" entry (file+headline (lambda () (concat org-directory "/work.org")) "Tasks")
-               "* TODO %?\n%u\n%a")
-              ("h" "Home" entry (file+headline (lambda () (concat org-directory "/home.org")) "Tasks")
-               "* TODO %?\n%u")
-              ("l" "Link" entry (file+headline (lambda () (concat org-directory "/links.org")) "Links")
-               "* TODO %^L %^g \n%u" :prepend t)
-              ("j" "Journal" entry (file+olp+datetree (lambda () (concat org-directory "/journal.org")))
-               "* %?\nEntered on %U\n  %i" :clock-in t :clock-resume t :clock-keep t)
-              ("a" "Appointment" entry (file (lambda () (concat org-directory "/gcal.org")))
-               "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n"))))
+        org-columns-default-format '"%38ITEM(Details) %TAGS(Context) %7TODO(To Do) %5Effort(Time){:} %6CLOCKSUM(Clock){:}")
 
   ;; targets for refiling
   (setq org-refile-targets (quote (
-                                   (nil :maxlevel . 3)
-                                   (org-agenda-files :maxlevel . 3))))
+                                   (nil :maxlevel . 2)
+                                   (org-agenda-files :maxlevel . 2))))
 
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
   (add-hook 'org-mode-hook 'flyspell-mode)
+
   :config
+
   ;; load useful babel modes for inline evaluation
   (org-babel-do-load-languages
    (quote org-babel-load-languages)
@@ -76,11 +48,45 @@
            (sass . t)
            (latex . t)))))
 
+;; Capture templates
+(use-package org-capture
+  :config
+  (setq org-capture-templates
+      (quote (("t" "Task" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Tasks")
+               "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")
+              ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
+               "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n")
+              ("w" "Work" entry (file+headline (lambda () (concat org-directory "/work.org")) "Tasks")
+               "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n%a")
+              ("h" "Home" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Home")
+               "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n")
+              ("l" "Link" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Links")
+               "* %^L %^g \n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-line 1 :prepend t)
+              ("j" "Journal" entry (file+olp+datetree (lambda () (concat org-directory "/journal.org")))
+               "* %?\nEntered on %U\n  %i" :clock-in t :clock-resume t :clock-keep t)
+              ("a" "Appointment" entry (file (lambda () (concat org-directory "/gcal.org")))
+               "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")))))
+
+;; Custom agenda commands
+(use-package org-agenda
+  :config
+  (setq org-agenda-include-diary t)
+  
+  (add-to-list 'org-agenda-custom-commands
+               '("w" "Work agenda and TODOs"
+                 ((agenda)
+                  (tags-todo "CATEGORY=\"work\"")
+                  )
+                 ((org-agenda-category-filter-preset '("+work"))))))
+
 ;; Exporters
 (use-package ox-gfm
   :ensure t)
 
 (use-package ox-twbs
+  :ensure t)
+
+(use-package ob-elixir
   :ensure t)
 
 (use-package org-bullets
