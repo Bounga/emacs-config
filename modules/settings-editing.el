@@ -11,6 +11,9 @@
 (setq require-final-newline t)
 (setq standard-indent 2)
 
+;; end a sentence after a dot and a space rather than after two spaces
+(setq sentence-end-double-space nil)
+
 ;; delete all selected region on del
 (delete-selection-mode t)
 
