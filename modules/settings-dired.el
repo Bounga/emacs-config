@@ -10,7 +10,9 @@
   :config
   ;; always delete and copy recursively
   (setq dired-recursive-deletes 'always
-        dired-recursive-copies 'always)
+        dired-recursive-copies 'always
+        dired-auto-revert-buffer t
+        dired-listing-switches "-alh")
   :bind ("C-x C-j" . dired-jump))
 
 (provide 'settings-dired)
