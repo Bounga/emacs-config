@@ -36,6 +36,11 @@
   :config
   (setq reb-re-syntax 'string))
 
+;; ensure bookmarks are saved automatically on every modification
+(use-package bookmark
+  :config
+  (setq bookmark-save-flag 1))
+
 ;; avoid annoying alarm bell
 (setq ring-bell-function 'ignore)
 
