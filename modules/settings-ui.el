@@ -13,6 +13,12 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
+;; time in modeline
+(use-package time
+  :config
+  (display-time-mode t)
+  (setq display-time-24hr-format t))
+
 ;; ease windows movements
 (windmove-default-keybindings)
 
