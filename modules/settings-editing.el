@@ -34,7 +34,8 @@
   :config
   (setq company-idle-delay 0
         company-tooltip-limit 10
-        company-minimum-prefix-length 3)
+        company-minimum-prefix-length 3
+        company-tooltip-align-annotations t)
   (global-company-mode t))
 
 (with-eval-after-load 'company
