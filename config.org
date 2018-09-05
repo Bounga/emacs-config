@@ -1,0 +1,1549 @@
+* Emacs init
+
+Set up how Emacs must handle automatic saves and personal info
+loading.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Make startup faster by reducing the frequency of garbage
+  ;; collection.  The default is 800 kilobytes.  Measured in bytes.
+  (setq gc-cons-threshold (* 50 1000 1000))
+
+  ;; Load private info if available
+  (defvar private/paradox-github-token nil "The token used by Paradox to authenticate requests on Github.")
+  (defvar private/org-gcal-client-id nil "The google calendar client id used by org-gcal.")
+  (defvar private/org-gcal-client-secret nil "The google calendar client secret used by org-gcal.")
+  (defvar private/org-gcal-username nil "The google calendar username used by org-gcal.")
+  (let ((credentials (expand-file-name "personal/credentials.el.gpg" user-emacs-directory)))
+    (load credentials t))
+
+  ;; config changes made through the customize UI are usually wrote in
+  ;; init.el. Creating it as a temporary file effectively disables it
+  ;; (i.e. any changes are session local).
+  (setq custom-file (make-temp-file "emacs-custom"))
+#+END_SRC
+
+* Emacs core
+
+This section sets all common core behaviors for Emacs
+
+#+BEGIN_SRC emacs-lisp 
+      ;; Prefer UTF-8 as default encoding
+      (set-language-environment "UTF-8")
+
+      ;; Disable interlocking
+      (setq create-lockfiles nil)
+
+      ;; Save all temporary files in the same directory
+      (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+      (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
+      ;; warn when opening files bigger than 100MB
+      (setq large-file-warning-threshold 100000000)
+
+      ;; enable semantic mode to provide more features to modes
+      (semantic-mode t)
+
+      ;; clean up obsolete buffers automatically
+      (use-package midnight
+        :ensure t
+        :defer t
+        :init
+        (add-hook 'after-init-hook 'midnight-mode))
+
+      ;; use ibuffer rather than list-buffer
+      (use-package ibuffer
+        :bind ("C-x C-b" . ibuffer))
+
+      ;; saner regex syntax
+      (use-package re-builder
+        :ensure t      
+        :defer 5
+        :config
+        (setq reb-re-syntax 'string))
+
+      ;; ensure bookmarks are saved automatically on every modification
+      (use-package bookmark
+        :init
+        (setq bookmark-save-flag 1))
+
+      ;; avoid annoying alarm bell
+      (setq ring-bell-function 'ignore)
+
+      ;; ensure external copy to clipboard is always saved to kill ring
+      (setq save-interprogram-paste-before-kill t)
+#+END_SRC
+
+* Packages handling
+
+Add MELPA to available package repositories and bootstrap
+~use-package~.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/")
+               t)
+
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+#+END_SRC
+
+Use paradox for complex package search
+
+#+BEGIN_SRC emacs-lisp
+  (use-package paradox
+    :ensure t
+    :defer t
+    :init
+    (setq paradox-github-token private/paradox-github-token
+          paradox-automatically-star nil
+          paradox-execute-asynchronously t))
+#+END_SRC
+
+* OS specific
+
+This section defines useful settings to use Emacs on Mac OS X.
+
+Mainly it ensures that ~PATH~ environment variable is read from shell
+on Emacs startup. It also set command key to meta and option to super.
+It also release right option key so I can use it to enter special
+characters.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :if (eq system-type 'darwin)
+    :ensure t
+    :defer t
+    :init
+    (defvar mac-option-key-is-meta nil)
+    (defvar mac-command-key-is-meta t)
+
+    (setq mac-command-modifier 'meta
+          mac-option-modifier 'super
+          mac-right-option-modifier nil)
+
+    (add-hook 'after-init-hook 'exec-path-from-shell-initialize)
+    :config
+    (setq exec-path-from-shell-check-startup-files nil))
+#+END_SRC
+
+* Calendar
+
+I use calendar pretty often mostly to know which week or day it is. I
+like the calendar to start on Monday rather than Sunday. I also like
+to have the week number displayed in its own column in front of the
+week row.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package calendar
+    :init
+    (setq calendar-week-start-day 1
+          calendar-intermonth-text
+          '(propertize
+            (format "%2d"
+                    (car
+                     (calendar-iso-from-absolute
+                      (calendar-absolute-from-gregorian (list month day year)))))
+            'font-lock-face 'font-lock-warning-face)
+
+          calendar-intermonth-header
+          (propertize "Wk"
+                      'font-lock-face 'font-lock-keyword-face)))
+#+END_SRC
+
+Set my position but can't remember why…
+
+#+BEGIN_SRC emacs-lisp
+  (use-package solar
+    :init
+    (setq calendar-latitude 50.4
+          calendar-longitude 2.8333
+          calendar-location-name "Avion, FR"))
+#+END_SRC
+
+* UI
+
+This section is dedicated to UI customiation.
+
+I don't need the splash screen on startup nor the tool bar.
+
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-splash-screen t)
+
+  (tool-bar-mode -1)
+#+END_SRC
+
+For some reason Emacs sometime asks to answer its question by y / n
+and sometime using yes / no. It's annoying so let's make it use y / n
+only.
+
+#+BEGIN_SRC emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+Moving from a window to another one is a pain with default key
+bindings. I use ~Windmove~ to ease window movements by using ~shift~
+and an arrow key.
+
+#+BEGIN_SRC emacs-lisp
+  (windmove-default-keybindings)
+#+END_SRC
+
+I like dark themes without too much vibrant colors. 
+
+#+BEGIN_SRC emacs-lisp
+  (use-package color-theme-sanityinc-tomorrow
+    :ensure t
+    :config
+    (load-theme 'sanityinc-tomorrow-night t))
+#+END_SRC
+
+At the moment my font of choice for editing is Source Code Pro.
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil
+                      :family "Source Code Pro"
+                      :height 140)
+#+END_SRC
+
+I prefer to display the cursor as a bar. I also want it to blink for
+some seconds when start / stop being active.
+
+#+BEGIN_SRC emacs-lisp
+  ;; customize cursor
+  (setq-default cursor-type 'bar)
+  (blink-cursor-mode 10)
+#+END_SRC
+
+By default the theme I'm using doesn't use a lot of contrast for
+selected region and I often find myself not being able to say if a
+region is marked or not. So let's add more contrast.
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'region nil :background "#666")
+#+END_SRC
+
+I like to be able to quickly what time it is so I display it in the
+mode line. I'd like to have time only but I can't figure out how to
+remove the load average.
+ 
+#+BEGIN_SRC emacs-lisp
+  (use-package time
+    :init
+    (setq display-time-24hr-format t
+          display-time-default-load-average nil)
+    :config
+    (display-time-mode t))
+#+END_SRC
+
+Make mode line sexier by using smart-mode-line with a dark theme,
+displaying current line and column and file size indicator.
+
+#+BEGIN_SRC emacs-lisp
+  ;; enhance mode-line displaying
+  (use-package smart-mode-line
+    :ensure t
+    :defer t
+    :init
+    (setq sml/no-confirm-load-theme t
+          sml/theme 'dark)
+
+    (add-hook 'after-init-hook #'sml/setup))
+
+  ;; mode line settings
+  (column-number-mode t)
+  (size-indication-mode t)
+#+END_SRC
+
+Highlight current line to make it easier to find.
+
+#+BEGIN_SRC emacs-lisp
+  (global-hl-line-mode t)
+#+END_SRC
+
+Emacs has a *a lot* of key bindings. It's hard to memorize everything.
+By using [[https://github.com/justbur/emacs-which-key][which-key]] you can start a key binding combination and a
+menu will show up to list all available key bindings for the given
+prefix. It's really awesome.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :defer t
+    :diminish which-key-mode
+    :init
+    (add-hook 'after-init-hook 'which-key-mode))
+#+END_SRC
+
+Mode line can quickly become messy if you're using a lot of minor
+modes. There are some minor mode I enable everywhere so I don't need
+to know if it's enabled or not. Using ~diminish~ allow to hide some
+minor modes in the mode line.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diminish
+    :ensure t
+    :defer t)
+#+END_SRC
+
+When opening a help window, move to it
+
+#+BEGIN_SRC emacs-lisp
+  (setq help-window-select t)
+#+END_SRC
+
+Prettifying UI by using icon
+
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :ensure t)
+
+  (use-package all-the-icons-ivy
+    :ensure t)
+#+END_SRC
+
+* Versioning
+
+Files versioning is something I deal with on a daily basis. I'm pretty
+comfortable with the command-line but Emacs provides such good tools
+to handle versioning that I pretty much stopped doing thing using
+command-line.
+
+The first too is Magit which a porcelain for Git. It offer a nice and
+clean UI to use git through Emacs with handy shortcuts. I couldn't
+live without this now.
+
+Let's enable it and set my default preferences for log command. We'll
+also enable GitFlow extension for Magit.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t
+    :defer t
+    :bind (("C-x g" . magit-status))
+    :init
+    ;; default settings
+    (setq magit-log-arguments (quote ("--graph" "--color" "--decorate" "-n256"))
+          magit-completing-read-function 'ivy-completing-read))
+
+  (use-package magit-gitflow
+    :ensure t
+    :defer t
+    :hook (magit-mode . turn-on-magit-gitflow))
+#+END_SRC
+
+Easily navigate through versions of the file.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package git-timemachine
+    :ensure t
+    :defer t)
+#+END_SRC
+
+I also really like to use Mercurial for my personal projects. Emacs
+also has an extension that is kind of Magit for Hg called Monky.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package monky
+    :ensure t
+    :defer t
+    :hook (monky-log-edit-mode . turn-on-auto-fill))
+#+END_SRC
+
+When I have to deal with merge conflicts my tool of choice is Emacs
+again and its ediff package. I don't like the default splitting and
+the fact that the command buffer is on another window, let's fix this.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ediff
+    :init
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain
+          ediff-split-window-function 'split-window-horizontally))
+#+END_SRC
+
+* Programming
+
+This section is dedicated to common programming settings.
+
+I like to use snippets to speed up coding. That's why I use [[https://github.com/joaotavora/yasnippet][YASnippet]]
+and it's [[https://github.com/AndreaCrotti/yasnippet-snippets][community driven snippets]]. It's so useful that I enable it
+globally and add it to company backends.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :defer t
+    :diminish yas-minor-mode
+    :init
+    (add-hook 'after-init-hook 'yas-global-mode)
+    :config
+    (eval-after-load 'company
+      '(push 'company-yasnippet company-backends)))
+
+  (use-package yasnippet-snippets
+    :ensure t
+    :defer t)
+#+END_SRC
+
+I like to lint my code on-the-fly so I know what is not following the
+best practices guidelines. This enable flycheck.
+
+I also enable spell checking for comments and ensure that they are
+automatically filled.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :defer t
+    :hook ((prog-mode . flycheck-mode)
+           (prog-mode . flyspell-prog-mode)
+           (prog-mode . (lambda ()
+                          (setq-local comment-auto-fill-only-comments t)
+                          (auto-fill-mode 1)))))
+#+END_SRC
+
+Handling matching parentheses, bracket and so on by hand is a pain so
+I use [[https://github.com/Fuco1/smartparens][Smartparens]] that deals with parens pairs and tries to be smart
+about it.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smartparens
+    :ensure t
+    :defer t
+    :diminish smartparens-mode
+    :hook (prog-mode . smartparens-mode))
+#+END_SRC
+
+When programming it's often useful to know on which line your cursor
+is on and to see surrounding line numbers to quickly jump to it.
+display-line-numbers-mode does that for us so let's enable it for
+prog-mode.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+#+END_SRC
+
+I often need to read the API doc of languages, frameworks and libs I
+use when programming. I'm also using the awesome [[https://kapeli.com/dash][Dash]] documentation
+browser. [[https://github.com/stanaka/dash-at-point][dash-at-point]] allows to search the word at point in Dash and
+can also scope the search on the current used language.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dash-at-point
+    :ensure t
+    :defer t
+    :bind (("C-c d" . dash-at-point)
+           ("C-c e" . dash-at-point-with-docset)))
+#+END_SRC
+
+I like to use keywords like =TODO= or =FIXME= in my code to mark
+portion of code that need particular attention in the future. I also
+like to be able to easily see it when I browse code. To do this I use
+[[https://github.com/lewang/fic-mode][fic-mode]] to highlight those keywords in code.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package fic-mode
+    :ensure t
+    :defer t
+    :hook (prog-mode . fic-mode))
+#+END_SRC
+
+Tags are a good way to index code and navigate through it easily. I
+use [[https://github.com/leoliu/ggtags][ggtags]] to do this.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ggtags
+    :ensure t
+    :defer t
+    :hook (prog-mode . ggtags-mode))
+#+END_SRC
+
+* Lang
+
+This section is dedicated to packages that provide programming
+language modes.
+
+** Coffee
+
+I'm not using Coffee much these days but still have to code on legacy
+projects that use it sometimes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package coffee-mode
+    :ensure t
+    :defer t
+    :init
+    (setq coffee-tab-width 2))
+#+END_SRC
+
+** CSS / SCSS / …
+
+I like my CSS to be indented with two spaces.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package css-mode
+    :ensure t
+    :defer t
+    :init
+    (setq css-indent-offset 2))
+#+END_SRC
+
+Whenever I can I use SCSS / SASS rather than raw CSS since it's really
+more flexible and powerful. scss-mode is annoying because it
+auto-compile files to CSS on save. Let's disable it.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package scss-mode
+    :ensure t
+    :defer t
+    :init
+    (setq scss-compile-at-save nil))
+#+END_SRC
+
+When writing HTML I like to rely on Emmet to easily generate HTML
+structures. I also use it for CSS / SCSS modes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emmet-mode
+    :ensure t
+    :defer t
+    :hook ((css-mode . emmet-mode)
+           (scss-mode . emmet-mode)))
+#+END_SRC
+
+** Elixir
+
+Elixir is a lot of fun and so powerful. It deserves a great
+configuration.
+
+Here we tweak smartparens so that it auto-closes ~fn~ and ~do~ blocks.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package elixir-mode
+    :ensure t
+    :defer t
+    :config
+    ;; Add end keyword when do is entered
+    (add-to-list 'elixir-mode-hook
+                 (defun auto-activate-ruby-end-mode-for-elixir-mode ()
+                   (set (make-variable-buffer-local 'ruby-end-expand-keywords-before-re)
+                        "\\(?:^\\|\\s-+\\)\\(?:do\\)")
+                   (set (make-variable-buffer-local 'ruby-end-check-statement-modifiers) nil)
+                   (ruby-end-mode +1))))
+#+END_SRC
+
+We also enable the *awesome* [[http://alchemist.readthedocs.io/en/latest/][Alchemist]] package which brings Elixir
+tooling integration into Emacs. It is ultra-powerful.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package alchemist
+    :ensure t
+    :defer t
+    :hook (elixir-mode . alchemist-mode))
+#+END_SRC
+
+** Elm
+
+I'm trying to learn Elm so let's add a mode for it. I like that the
+mode regenerates TAGS file for me and auto-format code on save.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package elm-mode
+    :ensure t
+    :defer t
+    :init
+    (setq elm-tags-on-save t
+          elm-format-on-save t)
+    :config
+    (eval-after-load 'company
+      '(push 'company-elm company-backends)))
+#+END_SRC
+
+** JS
+
+I prefer to use js2-mode which is an improved js-mode.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :mode "\\.js\\'"
+    :init
+    (setq js2-basic-offset 2
+          js2-bounce-indent-p t))
+#+END_SRC
+
+I do edit JSON files from time to time.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package json
+    :ensure t
+    :defer t)
+#+END_SRC
+
+I'm a big fan of Vue.js. I need a mode for it.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package vue-mode
+    :ensure t
+    :defer t)
+#+END_SRC
+
+** Markdown
+
+I do use Markdown a lot at work. We write documentation and blog
+posts using Markdown.
+
+I ensure ~.text~, ~.markdown~ and ~.md~ files use markdown-mode.
+
+I also prefer to render preview in browser using [[https://marked.js.org/#/README.md#README.md][Marked]] rather than
+the built-in parser since it supports GitHub flavored Markdown.
+
+Lists are two spaces indented, unordered lists uses ~-~ prefix and
+YAML metadata are enabled so their are ignored on parse.
+
+I also like to auto-fill my Markdown sources.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :defer t
+    :mode (("\\.text\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode)
+           ("\\.md\\'" . markdown-mode))
+    :hook (markdown-mode . auto-fill-mode)
+    :init
+    (setq markdown-command "/usr/local/bin/marked"
+          markdown-list-indent-width 2
+          markdown-unordered-list-item-prefix "  - "
+          markdown-use-pandoc-style-yaml-metadata t
+          markdown-fontify-code-blocks-natively t))
+
+#+END_SRC
+
+** Ruby
+
+Ruby is my language of choice for about 15 years now. A lot of great
+packages are available to get a powerful integration of Ruby into
+Emacs.
+
+I like to enable subword-mode when editing a Ruby file so that I can
+move from word to word easily in camel-cased words.
+
+I don't like to deep indent parameters in parentheses so I disable it.
+I also don't want ruby-mode to insert encoding magic comment at the
+beginning of file when there are non-ascii characters in the buffer
+since it's not need in recent version of Ruby.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ruby-mode
+    :ensure t
+    :defer t
+    :hook (ruby-mode . subword-mode)
+    :init
+    (setq ruby-deep-indent-paren nil
+          ruby-insert-encoding-magic-comment nil))
+#+END_SRC
+
+Automatically close blocks by inserting end when typing a
+block-keyword
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ruby-end
+    :ensure t
+    :defer t
+    :hook (ruby-mode . ruby-end-mode))
+#+END_SRC
+
+To handle the Ruby version I use on a project basis I use Rbenv.
+Let's make it use the right Ruby version automatically when I visit a
+Ruby file.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rbenv
+    :ensure t
+    :defer t
+    :hook (ruby-mode . rbenv-use-corresponding))
+#+END_SRC
+
+Enable [[https://github.com/rejeep/ruby-tools.el][ruby-tools package]] which provides a collection of handy
+functions to manipulate strings.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ruby-tools
+    :ensure t
+    :defer t
+    :hook (ruby-mode . ruby-tools-mode))
+#+END_SRC
+
+I also use [[https://github.com/nonsequitur/inf-ruby/][inf-ruby]] which provides a REPL buffer connected to a Ruby
+subprocess so I can play with my code in an IRB session right from
+Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package inf-ruby
+    :ensure t
+    :defer t
+    :hook (ruby-mode . inf-ruby-minor-mode))
+#+END_SRC
+
+[[https://github.com/dgutov/robe][Robe]] is a code assistance tool which provides ode navigation,
+documentation lookup and completion for Ruby.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package robe
+    :ensure t
+    :defer t
+    :hook ((ruby-mode . robe-mode)
+           (ruby-mode . eldoc-mode))
+    :config
+    (eval-after-load 'company
+      '(push 'company-robe company-backends)))
+#+END_SRC
+
+Documenting code is an important part of a developer work. In Ruby, I
+use [[https://yardoc.org][YARD]] to do this. [[https://github.com/pd/yard-mode.el][yard-mode]] provides support for fontifying YARD
+tags and directives in ruby comments and also give tips about how to
+use a given tag.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yard-mode
+    :ensure t
+    :defer t
+    :hook (ruby-mode . yard-mode))
+#+END_SRC
+
+Sometimes I want to align assignments which each others, values in
+hashes, and more. I use [[https://www.emacswiki.org/emacs/AlignCommands][align package]] to do this.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package align
+    :ensure t
+    :config
+    ;; define rules for automatic alignments
+    (add-to-list 'align-rules-list
+                 '(ruby-comma-delimiter
+                   (regexp . ",\\(\\s-*\\)[^# \t\n]")
+                   (repeat . t)
+                   (modes  . '(ruby-mode))))
+
+    (add-to-list 'align-rules-list
+                 '(ruby-hash-literal
+                   (regexp . "\\(\\s-*\\)=>\\s-*[^# \t\n]")
+                   (group 2 3)
+                   (repeat . t)
+                   (modes  . '(ruby-mode))))
+
+    (add-to-list 'align-rules-list
+                 '(ruby-hash-literal2
+                   (regexp . "[a-z0-9]:\\(\\s-*\\)[^# \t\n]")
+                   (repeat . t)
+                   (modes  . '(ruby-mode))))
+
+    (add-to-list 'align-rules-list
+                 '(ruby-assignment-literal
+                   (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
+                   (repeat . t)
+                   (modes  . '(ruby-mode))))
+
+    (add-to-list 'align-rules-list
+                 '(ruby-xmpfilter-mark
+                   (regexp . "\\(\\s-*\\)# => [^#\t\n]")
+                   (repeat . nil)
+                   (modes  . '(ruby-mode)))))
+#+END_SRC
+
+** HTML
+
+I mostly do web development so HTML is at the heart of what I'm doing.
+
+[[http://web-mode.org][web-mode]] is responsible of editing web templates. It knows about a lot
+of template engines. It a full featured mode with everything you can
+dream of to edit HTML templates.
+
+I use it for html, handlebars, erb and eex files. It is configured to
+auto-close tags. It's also configured to instruct smartparens about
+how to handle erb / eex tag pairs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :defer t
+    :mode (("\\.html?\\'" . web-mode)
+           ("\\.erb\\'" . web-mode)
+           ("\\.eex\\'" . web-mode))
+
+    :hook (web-mode . smartparens-mode)
+    :init
+    ;; Set indent to 2 and auto-close tags
+    (setq web-mode-markup-indent-offset 2
+          web-mode-code-indent-offset 2
+          web-mode-enable-current-element-highlight t
+          web-mode-enable-auto-closing t)
+
+    ;; make web-mode play nice with smartparens
+    :config
+    (eval-after-load 'smartparens
+      (sp-with-modes '(web-mode)
+         (sp-local-pair "%" "%"
+                        :unless '(sp-in-string-p)
+                        :post-handlers '(((lambda (&rest _ignored)
+                                            (just-one-space)
+                                            (save-excursion (insert " ")))
+                                          "SPC" "=" "#")))
+         (sp-local-tag "%" "<% "  " %>")
+         (sp-local-tag "=" "<%= " " %>")
+         (sp-local-tag "#" "<%# " " %>"))))
+#+END_SRC
+
+I also use Slim and Emblem so I use slim-mode for it.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package slim-mode
+    :ensure t
+    :defer t
+    :mode (("\\.emblem\\'" . slim-mode)))
+#+END_SRC
+
+Another tool I really like to help me is [[http://emmet.io/][Emmet]] which add a set of
+abbreviation you can use to quickly write complex [[https://github.com/smihica/emmet-mode#html-abbreviations][HTML]] and [[https://github.com/smihica/emmet-mode#css-abbreviations][CSS]]
+structures. I use it through [[https://github.com/smihica/emmet-mode][emmet-mode]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emmet-mode
+    :ensure t
+    :defer t
+    :hook (web-mode vue-mode css-mode))
+#+END_SRC
+
+* Projectile
+
+[[https://projectile.readthedocs.io/en/latest/][Projectile]] is projection interaction library that ease projects
+management.
+
+When I switch to a project I like to select a file rather than
+starting =dired= in its root folder.
+
+I use =Helm= as completion system and don't want useless directories
+such as =tmp=, =.git=, etc being listed in project files.
+
+As I often search for given expression in whole project I want the
+search to be fast that why I use [[https://github.com/ggreer/the_silver_searcher][Ag]] and its Helm backend.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :defer t
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :init
+    (add-hook 'after-init-hook 'projectile-mode)
+    (setq projectile-switch-project-action 'projectile-find-file
+          projectile-enable-caching t
+          projectile-completion-system 'ivy
+          projectile-globally-ignored-directories
+          (quote
+           (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "public/system" "vendor/bundle" "node_modules" "bower_components" ".bundle" ".sass-cache" ".yardoc" "tmp" "_build" "deps"))
+          projectile-globally-ignored-file-suffixes (quote ("DS_Store" "log" "db" "pdf"))))
+
+  (use-package ag
+    :ensure t
+    :defer t)
+#+END_SRC
+
+* Dired
+
+When using =Dired= to manipulate directories and files I like to copy
+and delete recursively. I also like my =Dired= buffer to be updated
+automatically when an external tool modify the directory structure.
+
+File sizes are displayed using human friendly format.
+
+=C-x C-j= opens the directory of the file in current buffer and move
+the cursor on this given file.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dired
+    :defer t
+    :init
+    (setq dired-recursive-deletes 'always
+          dired-recursive-copies 'always
+          dired-auto-revert-buffer t
+          dired-listing-switches "-alh"
+          delete-by-moving-to-trash t)
+    :bind ("C-x C-j" . dired-jump))
+#+END_SRC
+
+* Tramp
+
+Navigating in directories and editing files on remote hosts can be
+done seamlessly by using [[https://www.gnu.org/software/tramp/][Tramp]]. It also allow to sudo edit files as
+another user.
+
+I especially like to use it to work on my Raspberry Pi and to manage
+my server.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package tramp
+    :defer t
+    :init
+    ;; ssh access method is faster than default scp one
+    (setq tramp-default-method "ssh"))
+#+END_SRC
+
+* Editing
+
+This section is dedicated to common editing settings.
+
+I don't like using tabs and prefer to use two spaces for indentation.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (setq standard-indent 2)
+#+END_SRC
+
+I like my text files to end up with a final empty line so command-line
+tools works nicely.
+
+#+BEGIN_SRC emacs-lisp
+  (setq require-final-newline t)
+#+END_SRC
+
+When text is selected I want it to be overwritten if I type something
+or hit delete.
+
+#+BEGIN_SRC emacs-lisp
+  (delete-selection-mode t)
+#+END_SRC
+
+By default Emacs think that a sentence ended if there are two spaces
+after a dot. I want a sentence to be ended after a dot and one space.
+In many cases it's much easier to move in text this way.
+
+#+BEGIN_SRC emacs-lisp
+  (setq sentence-end-double-space nil)
+#+END_SRC
+
+When editing code it's nice to be able to easily see matching
+parentheses. This enable parentheses pairs highlighting.
+
+#+BEGIN_SRC emacs-lisp
+  (show-paren-mode 1)
+#+END_SRC
+
+I'm still not used to it but Emacs has a feature that allow to define
+abbreviations that can be used anywhere to speedup typing. This setup
+automatically save abbreviations across sessions in
+=~/emacs.d/abbrev_defs=.
+
+For now it's enabled only for =text-mode= compatible buffers. Maybe I'll
+find a use for it in =prog-mode= someday.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package abbrev
+    :defer t
+    :diminish abbrev-mode
+    :hook (text-mode . abbrev-mode)
+    :init
+    (setq abbrev-file-name "~/.emacs.d/abbrev_defs"
+          save-abbrevs t))
+#+END_SRC
+
+Completion tool is a must-have in a text editor. [[https://company-mode.github.io][Company]] is a powerful
+framework that display completion popup.
+
+I set it up to popup quickly as soon as 3 characters were entered and
+limit the result popup to 10 results. This mode is enabled globally.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :diminish company-mode
+    :init
+    (setq company-idle-delay 0
+          company-tooltip-limit 10
+          company-minimum-prefix-length 3
+          company-tooltip-align-annotations t)
+    (global-company-mode t)
+
+    ;; use C-n / C-p to navigate in popup rather than M-n / M-p
+    :bind (:map company-active-map
+                ("M-n" . nil)
+                ("M-p" . nil)
+                ("C-n" . 'company-select-next)
+                ("C-p" . 'company-select-previous)))
+#+END_SRC
+
+Company comes with a back-end to complete dynamic abbreviations. These
+abbreviations are completion of words existing in open buffers
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-dabbrev
+    :init
+    (setq company-dabbrev-downcase nil))
+#+END_SRC
+
+Sometimes I like to use Emojis. The easiest way to do this is to use
+=company-emoji=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-emoji
+    :init
+    (defun --set-emoji-font (frame)
+      "Adjust the font settings of FRAME so Emacs can display emoji properly."
+      (if (eq system-type 'darwin)
+          ;; For NS/Cocoa
+          (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
+        ;; For Linux
+        (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
+    :config
+    ;; For when Emacs is started in GUI mode:
+    (--set-emoji-font nil)
+    ;; Hook for when a frame is created with emacsclient
+    ;; see https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Frames.html
+    (add-hook 'after-make-frame-functions '--set-emoji-font)
+
+    (eval-after-load 'company
+        '(push 'company-emoji company-backends)))
+#+END_SRC
+
+Handling white-spaces by hand is a pain. I use [[https://www.emacswiki.org/emacs/WhiteSpace][whitespace]] to cleanup
+my buffer on save. It also highlight invisible characters and add a
+visual clue if a line is more than 80 characters long.
+
+This minor mode is enabled for =prog-mode= only.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package whitespace
+    :ensure t
+    :defer t
+    :diminish global-whitespace-mode
+    :init
+    (add-hook 'after-init-hook 'global-whitespace-mode)
+    (setq whitespace-action '(auto-cleanup)
+          whitespace-line-column 80
+          whitespace-style '(face tabs empty trailing lines-tail)
+          whitespace-global-modes '(prog-mode ruby-mode)))
+#+END_SRC
+
+
+When editing a versioned file it is great to know if something
+changed. [[https://github.com/dgutov/diff-hl][diff-hl]] highlights changes on the left side of the window,
+allows to navigate through hunks and revert them.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diff-hl
+    :ensure t
+    :defer t
+    :hook ((prog-mode . diff-hl-mode)
+           (dired-mode . diff-hl-dired-mode))
+    :config
+    (global-diff-hl-mode +1))
+#+END_SRC
+
+I do *a lot* of typos. [[https://www.emacswiki.org/emacs/FlySpell][Flyspell]] helps me by marking mistakes and
+providing me a list of potential corrections. 
+
+I use it for text file but also for code where it checks typos in comments.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :ensure t
+    :hook ((text-mode . flyspell-mode)
+           (prog-mode . flyspell-prog-mode))
+    :custom
+    (flyspell-issue-message-flag nil)
+    (flyspell-issue-welcome-flag nil)
+    (ispell-program-name "/usr/local/bin/aspell")
+    (ispell-dictionary "american"))
+
+  (use-package flyspell-correct-ivy
+    :ensure t
+    :defer t
+    :after flyspell
+    :bind (:map flyspell-mode-map
+                ("C-;" . flyspell-correct-word-generic)))
+#+END_SRC
+
+Undoing changes when a lot of modifications have been done can be
+difficult. [[https://www.emacswiki.org/emacs/UndoTree][Undo Tree]] is a great visual tool to navigate through
+changes and change branches.  
+
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :ensure t
+    :defer t
+    :diminish undo-tree-mode
+    :init
+    (add-hook 'after-init-hook 'global-undo-tree-mode))
+#+END_SRC
+
+[[https://github.com/magnars/expand-region.el][Expand region]] helps to easily expand region by semantic units. It
+tries to be smart about it and it's really useful.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :defer t
+    :bind (
+           ("C-=" . er/expand-region)))
+#+END_SRC
+
+I often need to duplicate a line to change it a bit. I also often need
+to move a given line or region around. [[https://github.com/wyuenho/move-dup][move-dup]] does just that and
+does it very well.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package move-dup
+    :ensure t
+    :defer t
+    :diminish move-dup-mode
+    :init
+    (add-hook 'after-init-hook 'global-move-dup-mode))
+#+END_SRC
+
+Revert buffers automatically when underlying files are changed
+externally.
+
+#+BEGIN_SRC emacs-lisp
+  (global-auto-revert-mode t)
+#+END_SRC
+
+Enable erase-buffer command.
+
+#+BEGIN_SRC emacs-lisp
+  (put 'erase-buffer 'disabled nil)
+#+END_SRC
+
+* ERC
+
+IRC has always been a great place to ask technical questions and chat
+about everything. Emacs comes with [[https://delysid.org/emacs/erc.html][ERC]] which a nice and powerful
+client.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package erc
+    :defer t
+    :init
+    (setq erc-prompt-for-password nil
+          erc-hide-list '("JOIN" "PART" "QUIT")
+          erc-kill-buffer-on-part t
+          erc-kill-queries-on-quit t
+          erc-kill-server-buffer-on-quit t
+          erc-server-coding-system '(utf-8 . utf-8)
+          erc-modules
+          (quote
+           (autojoin button completion fill irccontrols match netsplit networks noncommands notifications readonly ring services smiley stamp track))
+          erc-nick "Bounga"
+          erc-user-full-name "Nicolas Cavigneaux"
+          erc-server "irc.freenode.net"
+          erc-autojoin-channels-alist '(("freenode.net"
+                                         "#ruby"
+                                         "#elixir-lang"
+                                         "#emacs"
+                                         "#emacsfr"
+                                         "#synbioz")))
+    :config
+    (erc-truncate-mode t))
+
+  (use-package erc-services
+    :init
+    (setq erc-prompt-for-nickserv-password nil)
+    :config
+    (erc-services-mode t))
+
+  (use-package erc-spelling
+    :init
+    (setq erc-spelling-dictionaries '(("irc.freenode.net:6667" "american")
+                                      ("#emacsfr" "french")))
+    :config
+    (erc-spelling-mode t))
+
+  (use-package erc-hl-nicks
+    :ensure t
+    :defer t)
+#+END_SRC
+
+* Gnus
+
+Reading emails in text mode is fun 😉. [[http://gnus.org][Gnus]] is incredibly powerful
+when it comes to reading News or emails. It does everything you can
+dream of and that's why its [[http://gnus.org/manual/gnus_toc.html][manual is so big]].
+
+It even can take care of your favorites [[https://www.gnu.org/software/emacs/manual/html_node/gnus/RSS.html][RSS feeds]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package gnus-start
+    :defer t
+    :init
+    (setq gnus-init-file "~/.emacs.d/gnus.el"
+          gnus-startup-file "~/.emacs.d/newsrc"
+          gnus-directory "~/.emacs.d/News/"
+          message-directory "~/.emacs.d/Mail/"))
+#+END_SRC
+
+* Smex
+
+It provides a convenient interface to your recently and most
+frequently used commands.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smex
+    :ensure t
+    :config
+    (smex-initialize))
+#+END_SRC
+
+* Ivy
+
+[[https://github.com/abo-abo/swiper][Ivy]] is an Emacs framework for incremental completions and narrowing
+selections. It helps to rapidly complete file names, buffer names, or
+any other Emacs interactions requiring selecting an item from a list
+of possible choices.
+
+I use it for everything everywhere.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :ensure t
+    :defer t
+    :diminish ivy-mode
+    :bind (("C-s" . swiper)
+           ("C-c C-r" . ivy-resume)
+           ("C-x b" . ivy-switch-buffer))
+    :init
+    (add-hook 'after-init-hook 'ivy-mode)
+    :config
+    (setq ivy-use-virtual-buffers t
+          ivy-use-selectable-prompt t
+          ivy-wrap t))
+
+  (use-package counsel
+    :ensure t
+    :defer t
+    :diminish counsel-mode
+    :bind
+    (("C-h a" . counsel-apropos)
+     ("C-c f" . counsel-recentf)
+     ("C-x c i" . counsel-semantic-or-imenu)
+     :map minibuffer-local-map
+     ("C-r" . counsel-minibuffer-history)
+     :map ivy-minibuffer-map
+     ("M-y" . ivy-next-line))
+    :config
+    (counsel-mode))
+
+  (use-package counsel-projectile
+    :ensure t
+    :defer t
+    :init
+    (eval-after-load 'projectile
+        (counsel-projectile-mode)))
+#+END_SRC
+
+* Org
+
+[[http://www.orgmode.org][Org-mode]] is an incredibly powerful tool which I use for taking notes,
+plan projects, maintain TODO lists, author documents and more.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :defer t
+    :mode ("\\.org\\'" . org-mode)
+    :bind (("C-c l" . org-store-link)
+           ("C-c a" . org-agenda)
+           ("C-c b" . org-iswitchb)
+           ("C-c c" . org-capture))
+    :hook ((org-mode . turn-on-auto-fill)
+           (org-mode . flyspell-mode))
+    :init
+    (setq org-directory "~/Documents/org"
+          org-agenda-files (directory-files org-directory t ".org$")
+          org-log-done t
+          org-hide-leading-stars t
+          org-startup-indented t
+          org-default-notes-file (concat org-directory "/notes.org")
+          org-enforce-todo-dependencies t
+          org-confirm-babel-evaluate nil
+          org-clock-idle-time 10
+          org-blank-before-new-entry '((heading . always) (plain-list-item . auto))
+          org-global-properties '(("Effort_ALL". "0 0:10 0:20 0:30 1:00 2:00 3:00 4:00 6:00 8:00"))
+          org-columns-default-format '"%38ITEM(Details) %TAGS(Context) %7TODO(To Do) %5Effort(Time){:} %6CLOCKSUM(Clock){:}")
+
+    ;; make tab in source code blocks act the same way as in a native buffer
+    (setq org-src-tab-acts-natively t
+          org-src-fontify-natively t
+          org-src-window-setup 'current-window)
+
+    ;; targets for refiling
+    (setq org-refile-targets (quote (
+                                     (nil :maxlevel . 2)
+                                     (org-agenda-files :maxlevel . 2))))
+
+    ;; load useful babel modes for inline evaluation
+    (org-babel-do-load-languages
+     (quote org-babel-load-languages)
+     (quote ((emacs-lisp . t)
+             (elixir . t)
+             (ruby . t)
+             (css . t)
+             (shell . t)
+             (org . t)
+             (sass . t)
+             (latex . t)))))
+
+  ;; Capture templates
+  (use-package org-capture
+    :defer t
+    :init
+    (setq org-capture-templates
+          (quote (("t" "Task" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Tasks")
+                   "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n")
+                  ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
+                   "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n")
+                  ("w" "Work" entry (file+headline (lambda () (concat org-directory "/work.org")) "Tasks")
+                   "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n")
+                  ("h" "Home" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Home")
+                   "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n")
+                  ("l" "Link" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Links")
+                   "* %^L %^g \n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-line 1 :prepend t)
+                  ("j" "Journal" entry (file+olp+datetree (lambda () (concat org-directory "/journal.org")))
+                   "* %?\nEntered on %U\n  %i" :clock-in t)
+                  ("a" "Appointment" entry (file (lambda () (concat org-directory "/gcal.org")))
+                   "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")))))
+
+  ;; Custom agenda commands
+  (use-package org-agenda
+    :defer t
+    :init
+    (setq org-agenda-include-diary t)
+    :config
+    (add-to-list 'org-agenda-custom-commands
+                 '("w" "Work agenda and TODOs"
+                   ((agenda)
+                    (tags-todo "CATEGORY=\"work\"")
+                    )
+                   ((org-agenda-category-filter-preset '("+work"))))))
+
+  ;; Exporters
+  (use-package ox-gfm
+    :ensure t)
+
+  (use-package ox-twbs
+    :ensure t)
+
+  (use-package ob-elixir
+    :ensure t)
+
+  (use-package org-bullets
+    :ensure t
+    :defer t
+    :hook (org-mode .(lambda()
+                       (org-bullets-mode t))))
+#+END_SRC
+
+* Term
+
+#+BEGIN_SRC emacs-lisp
+  (use-package multi-term
+    :ensure t
+    :defer t
+    :bind (("C-c t" . multi-term-dedicated-toggle))
+    :init
+    (setq multi-term-program "/usr/local/bin/fish"
+          multi-term-dedicated-select-after-open-p t)
+
+    ;; Disable Yasnippet completion in terminal, use native one
+    (add-hook 'term-mode-hook (lambda()
+                                (yas-minor-mode -1)))
+    ;; Ensure utf-8 is used to be able to display special characters
+    (add-hook 'term-exec-hook
+              (function
+               (lambda()
+                 (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix)))))
+#+END_SRC
+
+* Eshell
+
+Eshell can be useful when using a shell in Emacs. Let's customize it
+to have a pretty prompt.
+
+Code was borrowed from [[https://github.com/ekaschalk/.spacemacs.d/][ekaschalk' Spacemacs.d]].
+
+#+BEGIN_SRC emacs-lisp
+  (require 'dash)
+  (require 'dash-functional)
+  (require 's)
+
+  (provide 'macros)
+
+  ;;; define-keys
+
+  (defun define-keys (keymap &rest pairs)
+    "Define alternating key-def PAIRS for KEYMAP."
+    (-each
+        (-partition 2 pairs)
+      (-lambda ((key def))
+        (define-key keymap key def))))
+
+  ;;; global-set-keys
+
+  (defun global-set-keys (&rest pairs)
+    "Set alternating key-def PAIRS globally."
+    (-each
+        (-partition 2 pairs)
+      (-lambda ((key def))
+        (global-set-key key def))))
+
+  ;;; evil-global-set-keys
+
+  (defun evil-global-set-keys (states &rest pairs)
+    "Set alternating key-def PAIRS for all evil STATES."
+    (-each
+        (-partition 2 pairs)
+      (-lambda ((key def))
+        (--each states
+          (evil-global-set-key it key def)))))
+
+  ;;; with-dir
+
+  (defmacro with-dir (DIR &rest FORMS)
+    "Execute FORMS in DIR."
+    (let ((orig-dir (gensym)))
+      `(prog2
+           (setq ,orig-dir default-directory)
+           (progn (cd ,DIR) ,@FORMS)
+         (cd ,orig-dir))))
+
+  ;;; with-face
+
+  (defmacro with-face (STR &rest PROPS)
+    "Return STR propertized with PROPS."
+    `(propertize ,STR 'face (list ,@PROPS)))
+
+  (require 'macros)
+
+  (provide 'pretty-eshell)
+
+  ;;; Config
+
+  (defvar pretty-eshell-funcs nil
+    "List of `pretty-eshell-section' to enable.")
+
+  (defvar pretty-eshell-sep "  "
+    "String delimits each `pretty-eshell-section'")
+
+  (defvar pretty-eshell-section-delim " "
+    "String delimits icons and their text.")
+
+  (defvar pretty-eshell-header "\n┌─ "
+    "Initial string composing the eshell prompt.")
+
+  (defvar pretty-eshell-prompt-string "└─> "
+    "Prompt string, must match builtin `eshell-prompt-regexp'")
+
+  (defvar pretty-eshell-prompt-num 0
+    "Prompt number for current eshell session.")
+
+  ;;; Section utilities
+
+  (add-hook 'eshell-exit-hook
+            (lambda () (setq pretty-eshell-prompt-num 0)))
+  (advice-add 'eshell-send-input :before
+              (lambda (&rest args) (incf pretty-eshell-prompt-num)))
+
+  ;;; Core
+
+  ;;;###autoload
+  (defmacro pretty-eshell-section (name icon form &rest props)
+    "Build eshell section NAME with ICON prepended to evaled FORM with PROPS."
+    ;; Roundabout way to handle case that
+    ;; 1. Form is a variable and
+    ;; 2. That variable might not be defined/initialized
+    ;; Eg. pyvenv-virtualenv-name not loaded until pyvenv-workon
+    `(setq ,name
+           (lambda ()
+             (when (or (and (symbolp (quote ,form))
+                            (bound-and-true-p ,form))
+                       (and (not (symbolp (quote ,form)))
+                            ,form))
+               (-> ,icon
+                  (concat pretty-eshell-section-delim ,form)
+                  (with-face ,@props))))))
+
+  ;;;###autoload
+  (defun pretty-eshell--acc (acc x)
+    "Accumulator for evaluating and concatenating pretty-eshell-sections."
+    (--if-let (funcall x)
+        (if (s-blank? acc)
+            it
+          (s-concat acc pretty-eshell-sep it))
+      acc))
+
+  ;;;###autoload
+  (defun pretty-eshell-prompt-func ()
+    "Value for `eshell-prompt-function'."
+    (concat pretty-eshell-header
+            (-reduce-from 'pretty-eshell--acc "" pretty-eshell-funcs)
+            "\n"
+            pretty-eshell-prompt-string))
+
+  (setq eshell-prompt-function
+        'pretty-eshell-prompt-func)
+
+  (progn
+        ;; Directory
+        (pretty-eshell-section
+         esh-dir
+         "\xf07cg"  ; 
+         (abbreviate-file-name (eshell/pwd))
+         '(:foreground "gold" :bold ultra-bold :underline t))
+
+        ;; Git Branch
+        (pretty-eshell-section
+         esh-git
+         "\xe907"  ; 
+         (magit-get-current-branch)
+         '(:foreground "pink"))
+
+        ;; Python Virtual Environment
+        (pretty-eshell-section
+         esh-python
+         "\xe928"  ; 
+         pyvenv-virtual-env-name)
+
+        ;; Time
+        (pretty-eshell-section
+         esh-clock
+         "\xf017"  ; 
+         (format-time-string "%H:%M" (current-time))
+         '(:foreground "forest green"))
+
+        ;; Prompy Number
+        (pretty-eshell-section
+         esh-num
+         "\xf0c9"  ; 
+         (number-to-string pretty-eshell-prompt-num)
+         '(:foreground "brown"))
+
+        (setq pretty-eshell-funcs
+              (list esh-dir esh-git esh-clock esh-num)))
+#+END_SRC
+* PDF
+
+Emacs has built-in support for viewing PDF but is pretty limited in
+features. [[https://github.com/politza/pdf-tools][PDF Tools]] provides a much more powerful set of features.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :defer t
+    :init
+    (add-hook 'after-init-hook 'pdf-tools-install))
+#+END_SRC
+
+* Post startup config
+
+Make gc pauses faster by decreasing the threshold.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gc-cons-threshold (* 2 1000 1000))
+#+END_SRC

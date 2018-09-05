@@ -6,6 +6,7 @@ elpa
 bookmarks
 eshell
 projectile-bookmarks.eld
+projectile.cache
 snippets
 personal
 url
@@ -15,4 +16,7 @@ games
 tramp
 News
 org-gcal
+.org-id-locations
 oauth2.plstore
+config.el
+smex-items

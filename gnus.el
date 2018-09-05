@@ -28,32 +28,33 @@
       mm-discouraged-alternatives '("text/html" "text/richtext")
 
       gnus-fetch-old-headers t
-      gnus-message-archive-group nil)
+      gnus-message-archive-group nil
+      gnus-always-read-dribble-file t)
 
 ;; personal IMAP server info
 (setq gnus-select-method
-      '(nnimap "gmail"
+      '(nnimap "home"
                (nnimap-address "imap.gmail.com")
                (nnimap-server-port "imaps")
                (nnimap-stream ssl)
                (nnir-search-engine imap)
                ;; @see http://www.gnu.org/software/emacs/manual/html_node/gnus/Expiring-Mail.html
                ;; press 'E' to expire email
-               (nnmail-expiry-target "nnimap+gmail:[Gmail]/Trash")
-               (nnmail-expiry-wait (quote immediate))))
+               (nnmail-expiry-target "nnimap+home:[Gmail]/Trash")
+               (nnmail-expiry-wait 'immediate)))
 
 ;; work IMAP server info
 (setq gnus-secondary-select-methods
       '((nnimap "work"
-                (nnimap-address "imap.synbioz.com")
+                (nnimap-address "imap.gmail.com")
                 (nnimap-server-port "imaps")
                 (nnimap-stream ssl)
                 (nnir-search-engine imap)
-                (nnmail-expiry-target "nnimap+work:Trash")
-                (nnmail-expiry-wait (quote immediate)))))
+                (nnmail-expiry-target "nnimap+work:[Gmail]/Trash")
+                (nnmail-expiry-wait 'immediate))))
 
 ;; Archive outgoing email in Sent folder on imap.gmail.com:
-(setq gnus-message-archive-method '(nnimap "imap.gmail.com")
+(setq gnus-message-archive-method '(nnimap "home")
       gnus-message-archive-group "[Gmail]/Sent Mail")
 
 ;; Send email through SMTP
@@ -92,7 +93,7 @@
             (gnus-group-list-all-groups 5)))
 
 ;; Attachments handling
-(mailcap-add-mailcap-entry "application" "pdf" '((viewer . "qlmanage -p %s") (type . "application/pdf")))
+(mailcap-add-mailcap-entry "application" "pdf" '((viewer . "open %s") (type . "application/pdf")))
 (mailcap-add-mailcap-entry "application" "*" '((viewer . "open %s") (type . "application/*")))
 (mailcap-add-mailcap-entry "image" "*" '((viewer . "open %s") (type . "image/*")))
 
