@@ -236,19 +236,16 @@ remove the load average.
     (display-time-mode t))
 #+END_SRC
 
-Make mode line sexier by using smart-mode-line with a dark theme,
-displaying current line and column and file size indicator.
+Make mode line sexier by using Moody, displaying current line and
+column and file size indicator.
 
 #+BEGIN_SRC emacs-lisp
   ;; enhance mode-line displaying
-  (use-package smart-mode-line
-    :ensure t
-    :defer t
-    :init
-    (setq sml/no-confirm-load-theme t
-          sml/theme 'dark)
-
-    (add-hook 'after-init-hook #'sml/setup))
+  (use-package moody
+    :config
+    (setq x-underline-at-descent-line t)
+    (moody-replace-mode-line-buffer-identification)
+    (moody-replace-vc-mode))
 
   ;; mode line settings
   (column-number-mode t)
@@ -277,13 +274,14 @@ prefix. It's really awesome.
 
 Mode line can quickly become messy if you're using a lot of minor
 modes. There are some minor mode I enable everywhere so I don't need
-to know if it's enabled or not. Using ~diminish~ allow to hide some
+to know if it's enabled or not. Using ~minions~ allow to hide some
 minor modes in the mode line.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package diminish
+  (use-package minions
     :ensure t
-    :defer t)
+    :defer t
+    :config (minions-mode 1))
 #+END_SRC
 
 When opening a help window, move to it
