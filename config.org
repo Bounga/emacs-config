@@ -409,9 +409,9 @@ about it.
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
     :ensure t
-    :defer t
     :diminish smartparens-mode
-    :hook (prog-mode . smartparens-mode))
+    :init (require 'smartparens-config)
+    :hook ((prog-mode . smartparens-mode)))
 #+END_SRC
 
 When programming it's often useful to know on which line your cursor
@@ -515,22 +515,6 @@ structures. I also use it for CSS / SCSS modes.
 
 Elixir is a lot of fun and so powerful. It deserves a great
 configuration.
-
-Here we tweak smartparens so that it auto-closes ~fn~ and ~do~ blocks.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package elixir-mode
-    :ensure t
-    :defer t
-    :config
-    ;; Add end keyword when do is entered
-    (add-to-list 'elixir-mode-hook
-                 (defun auto-activate-ruby-end-mode-for-elixir-mode ()
-                   (set (make-variable-buffer-local 'ruby-end-expand-keywords-before-re)
-                        "\\(?:^\\|\\s-+\\)\\(?:do\\)")
-                   (set (make-variable-buffer-local 'ruby-end-check-statement-modifiers) nil)
-                   (ruby-end-mode +1))))
-#+END_SRC
 
 We also enable the *awesome* [[http://alchemist.readthedocs.io/en/latest/][Alchemist]] package which brings Elixir
 tooling integration into Emacs. It is ultra-powerful.
@@ -642,16 +626,6 @@ since it's not need in recent version of Ruby.
     :init
     (setq ruby-deep-indent-paren nil
           ruby-insert-encoding-magic-comment nil))
-#+END_SRC
-
-Automatically close blocks by inserting end when typing a
-block-keyword
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ruby-end
-    :ensure t
-    :defer t
-    :hook (ruby-mode . ruby-end-mode))
 #+END_SRC
 
 To handle the Ruby version I use on a project basis I use Rbenv.
@@ -959,7 +933,7 @@ limit the result popup to 10 results. This mode is enabled globally.
     :init
     (setq company-idle-delay 0
           company-tooltip-limit 10
-          company-minimum-prefix-length 3
+          company-minimum-prefix-length 2
           company-tooltip-align-annotations t)
     (global-company-mode t)
 
@@ -1261,6 +1235,7 @@ plan projects, maintain TODO lists, author documents and more.
           org-startup-indented t
           org-default-notes-file (concat org-directory "/notes.org")
           org-enforce-todo-dependencies t
+          org-catch-invisible-edits 'error
           org-confirm-babel-evaluate nil
           org-blank-before-new-entry '((heading . always) (plain-list-item . auto))
           org-global-properties '(("Effort_ALL". "0:10 0:20 0:30 1:00 2:00 3:00 4:00 6:00 8:00 0:00"))
@@ -1291,9 +1266,13 @@ plan projects, maintain TODO lists, author documents and more.
   ;; Clocking
   (use-package org-clock
     :defer t
+    :bind (("<f12> l" . org-clock-in-last)
+           ("<f12> o" . org-clock-out)
+           ("<f12> g" . org-clock-goto))
     :init
     (setq org-clock-idle-time 10
-          org-clock-out-remove-zero-time-clocks t))
+          org-clock-out-remove-zero-time-clocks t)
+    (bind-key "<f12> i" (lambda () (interactive) (org-clock-in '(4)))))
 
   ;; Capture templates
   (use-package org-capture
@@ -1303,7 +1282,7 @@ plan projects, maintain TODO lists, author documents and more.
           (quote (("t" "Task" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Tasks")
                    "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n" :clock-in t :clock-resume t)
                   ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
-                   "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n" :clock-resume t)
+                   "* %? %^g \n:PROPERTIES:\n:CREATED: %U\n:END:\n" :clock-resume t)
                   ("w" "Work" entry (file+headline (lambda () (concat org-directory "/work.org")) "Tasks")
                    "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n" :clock-in t :clock-resume t)
                   ("h" "Home" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Home")
