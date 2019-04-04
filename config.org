@@ -223,9 +223,8 @@ region is marked or not. So let's add more contrast.
   (set-face-attribute 'region nil :background "#666")
 #+END_SRC
 
-I like to be able to quickly what time it is so I display it in the
-mode line. I'd like to have time only but I can't figure out how to
-remove the load average.
+I like to be able to quickly see what time it is so I display it in
+the mode line.
  
 #+BEGIN_SRC emacs-lisp
   (use-package time
@@ -667,8 +666,7 @@ documentation lookup and completion for Ruby.
   (use-package robe
     :ensure t
     :defer t
-    :hook ((ruby-mode . robe-mode)
-           (ruby-mode . eldoc-mode))
+    :hook ((ruby-mode . robe-mode))
     :config
     (eval-after-load 'company
       '(push 'company-robe company-backends)))
