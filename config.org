@@ -266,7 +266,6 @@ prefix. It's really awesome.
   (use-package which-key
     :ensure t
     :defer t
-    :diminish which-key-mode
     :init
     (add-hook 'after-init-hook 'which-key-mode))
 #+END_SRC
@@ -372,7 +371,6 @@ globally and add it to company backends.
   (use-package yasnippet
     :ensure t
     :defer t
-    :diminish yas-minor-mode
     :init
     (add-hook 'after-init-hook 'yas-global-mode)
     :config
@@ -408,7 +406,6 @@ about it.
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
     :ensure t
-    :diminish smartparens-mode
     :init (require 'smartparens-config)
     :hook ((prog-mode . smartparens-mode)))
 #+END_SRC
@@ -912,7 +909,6 @@ find a use for it in =prog-mode= someday.
 #+BEGIN_SRC emacs-lisp
   (use-package abbrev
     :defer t
-    :diminish abbrev-mode
     :hook (text-mode . abbrev-mode)
     :init
     (setq abbrev-file-name "~/.emacs.d/abbrev_defs"
@@ -927,7 +923,6 @@ limit the result popup to 10 results. This mode is enabled globally.
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :diminish company-mode
     :init
     (setq company-idle-delay 0
           company-tooltip-limit 10
@@ -986,7 +981,6 @@ This minor mode is enabled for =prog-mode= only.
   (use-package whitespace
     :ensure t
     :defer t
-    :diminish global-whitespace-mode
     :init
     (add-hook 'after-init-hook 'global-whitespace-mode)
     (setq whitespace-action '(auto-cleanup)
@@ -1042,7 +1036,6 @@ changes and change branches.
   (use-package undo-tree
     :ensure t
     :defer t
-    :diminish undo-tree-mode
     :init
     (add-hook 'after-init-hook 'global-undo-tree-mode))
 #+END_SRC
@@ -1066,7 +1059,6 @@ does it very well.
   (use-package move-dup
     :ensure t
     :defer t
-    :diminish move-dup-mode
     :init
     (add-hook 'after-init-hook 'global-move-dup-mode))
 #+END_SRC
@@ -1176,7 +1168,6 @@ I use it for everything everywhere.
   (use-package ivy
     :ensure t
     :defer t
-    :diminish ivy-mode
     :bind (("C-s" . swiper)
            ("C-c C-r" . ivy-resume)
            ("C-x b" . ivy-switch-buffer))
@@ -1190,7 +1181,6 @@ I use it for everything everywhere.
   (use-package counsel
     :ensure t
     :defer t
-    :diminish counsel-mode
     :bind
     (("C-h a" . counsel-apropos)
      ("C-c f" . counsel-recentf)
