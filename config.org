@@ -273,14 +273,14 @@ prefix. It's really awesome.
 
 Mode line can quickly become messy if you're using a lot of minor
 modes. There are some minor mode I enable everywhere so I don't need
-to know if it's enabled or not. Using ~minions~ allow to hide some
-minor modes in the mode line.
+to know if it's enabled or not. Using ~minions~ allow to show only
+some minor modes in the mode line.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package minions
-    :ensure t
-    :defer t
-    :config (minions-mode 1))
+    (use-package minions
+      :ensure t
+      :init (setq minions-direct '(projectile-mode))
+      :config (minions-mode 1))
 #+END_SRC
 
 When opening a help window, move to it
