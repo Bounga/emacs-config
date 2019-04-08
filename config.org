@@ -276,10 +276,12 @@ to know if it's enabled or not. Using ~minions~ allow to show only
 some minor modes in the mode line.
 
 #+BEGIN_SRC emacs-lisp
-    (use-package minions
-      :ensure t
-      :init (setq minions-direct '(projectile-mode))
-      :config (minions-mode 1))
+  (use-package minions
+    :ensure t
+    :init (setq minions-direct '(projectile-mode
+                                 artist-mode
+                                 scroll-all-mode))
+    :config (minions-mode 1))
 #+END_SRC
 
 When opening a help window, move to it
