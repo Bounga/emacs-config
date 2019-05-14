@@ -407,9 +407,12 @@ about it.
 
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
-    :ensure t
-    :init (require 'smartparens-config)
-    :hook ((prog-mode . smartparens-mode)))
+    :config
+    (require 'smartparens-config)
+    :init
+    (add-hook 'after-init-hook 'smartparens-global-mode)
+    :hook ((prog-mode . turn-on-smartparens-strict-mode)
+           (markdown-mode . turn-on-smartparens-strict-mode)))
 #+END_SRC
 
 When programming it's often useful to know on which line your cursor
@@ -514,6 +517,15 @@ structures. I also use it for CSS / SCSS modes.
 Elixir is a lot of fun and so powerful. It deserves a great
 configuration.
 
+#+BEGIN_SRC emacs-lisp
+  (use-package elixir-mode
+    :ensure t
+    :defer t
+    :init
+    (add-hook 'elixir-mode-hook
+            (lambda () (add-hook 'before-save-hook 'elixir-format nil t))))
+#+END_SRC
+
 We also enable the *awesome* [[http://alchemist.readthedocs.io/en/latest/][Alchemist]] package which brings Elixir
 tooling integration into Emacs. It is ultra-powerful.
 
@@ -559,7 +571,10 @@ I do edit JSON files from time to time.
 #+BEGIN_SRC emacs-lisp
   (use-package json
     :ensure t
-    :defer t)
+    :defer t
+    :init
+    (setq js-indent-level 2
+          json-reformat:indent-width 2))
 #+END_SRC
 
 I'm a big fan of Vue.js. I need a mode for it.
@@ -926,7 +941,7 @@ limit the result popup to 10 results. This mode is enabled globally.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :init
-    (setq company-idle-delay 0
+    (setq company-idle-delay 0.3
           company-tooltip-limit 10
           company-minimum-prefix-length 2
           company-tooltip-align-annotations t)
@@ -1170,7 +1185,7 @@ I use it for everything everywhere.
   (use-package ivy
     :ensure t
     :defer t
-    :bind (("C-s" . swiper)
+    :bind (("C-s" . swiper-isearch)
            ("C-c C-r" . ivy-resume)
            ("C-x b" . ivy-switch-buffer))
     :init
