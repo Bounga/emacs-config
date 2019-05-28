@@ -698,6 +698,17 @@ use a given tag.
     :hook (ruby-mode . yard-mode))
 #+END_SRC
 
+I mainly create web apps using Rails so having a good integration of
+it in Projectile is great.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile-rails
+    :ensure t
+    :defer t
+    :init
+    (add-hook 'after-init-hook 'projectile-rails-global-mode))
+#+END_SRC
+
 Sometimes I want to align assignments which each others, values in
 hashes, and more. I use [[https://www.emacswiki.org/emacs/AlignCommands][align package]] to do this.
 
@@ -801,8 +812,29 @@ structures. I use it through [[https://github.com/smihica/emmet-mode][emmet-mode
     :hook (web-mode vue-mode css-mode))
 #+END_SRC
 
-* Projectile
+* Jekyll
 
+I use Jekyll as my blogging engine. I need to be able to insert
+back-links and images in my posts from time to time.
+
+Let's ease this by adding two helpers to do the hard-work for us.
+
+#+BEGIN_SRC emacs-lisp
+  (defun jekyll-insert-post-url ()
+    (interactive)
+    (let* ((files (remove "." (mapcar #'file-name-sans-extension (directory-files "."))))
+           (selected-file (completing-read "Select article: " files nil t)))
+      (insert (format "{%% post_url %s %%}" selected-file))))
+
+  (defun jekyll-insert-image-url ()
+    (interactive)
+    (let* ((files (directory-files "../assets/images"))
+           (selected-file (completing-read "Select image: " files nil t)))
+      (insert (format "![%s](/assets/images/%s)" selected-file selected-file))))
+#+END_SRC
+
+* Projectile
+ 
 [[https://projectile.readthedocs.io/en/latest/][Projectile]] is projection interaction library that ease projects
 management.
 
@@ -941,7 +973,7 @@ limit the result popup to 10 results. This mode is enabled globally.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :init
-    (setq company-idle-delay 0.3
+    (setq company-idle-delay 0.5
           company-tooltip-limit 10
           company-minimum-prefix-length 2
           company-tooltip-align-annotations t)
