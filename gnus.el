@@ -32,6 +32,8 @@
       gnus-always-read-dribble-file t)
 
 ;; personal IMAP server info
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (setq gnus-select-method
       '(nnimap "home"
                (nnimap-address "imap.gmail.com")
