@@ -244,7 +244,13 @@ column and file size indicator.
     :config
     (setq x-underline-at-descent-line t)
     (moody-replace-mode-line-buffer-identification)
-    (moody-replace-vc-mode))
+    (moody-replace-vc-mode)
+
+    (if (eq system-type 'darwin)
+        ;; For NS/Cocoa, fix weird tab separator colors, see
+        ;; https://github.com/tarsius/moody/commit/48c6a3610d41373d81fe25ee9aba40f02b5241d1
+        (setq moody-slant-function #'moody-slant-apple-rgb)
+        (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)))
 
   ;; mode line settings
   (column-number-mode t)
