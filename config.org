@@ -251,10 +251,11 @@ column and file size indicator.
   (size-indication-mode t)
 #+END_SRC
 
-Highlight current line to make it easier to find.
+Highlight current line and make it brighter so it's easier to find.
 
 #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode t)
+  (set-face-background hl-line-face "#373b41")
 #+END_SRC
 
 Emacs has a *a lot* of key bindings. It's hard to memorize everything.
