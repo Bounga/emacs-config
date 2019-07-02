@@ -198,12 +198,12 @@ I like dark themes without too much vibrant colors.
     (load-theme 'sanityinc-tomorrow-night t))
 #+END_SRC
 
-At the moment my font of choice for editing is Source Code Pro.
+At the moment my font of choice for editing is [[https://sourcefoundry.org/hack/][Hack]].
 
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil
-                      :family "Source Code Pro"
-                      :height 140)
+                      :family "Hack"
+                      :height 130)
 #+END_SRC
 
 I prefer to display the cursor as a bar. I also want it to blink for
