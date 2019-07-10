@@ -994,12 +994,20 @@ limit the result popup to 10 results. This mode is enabled globally.
 #+END_SRC
 
 Company comes with a back-end to complete dynamic abbreviations. These
-abbreviations are completion of words existing in open buffers
+abbreviations are completion of words existing in open buffers.
 
 #+BEGIN_SRC emacs-lisp
   (use-package company-dabbrev
     :init
     (setq company-dabbrev-downcase nil))
+#+END_SRC
+
+I often rely on words available in open buffers, file names, kill
+ring, abbrev, etc to complete word at point. Hippie-expand seems to be
+the most powerful command to do this so let's use it.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-/") 'hippie-expand)
 #+END_SRC
 
 Sometimes I like to use Emojis. The easiest way to do this is to use
