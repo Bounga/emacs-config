@@ -1206,6 +1206,19 @@ It even can take care of your favorites [[https://www.gnu.org/software/emacs/man
           message-directory "~/.emacs.d/Mail/"))
 #+END_SRC
 
+* News feeds
+
+Subscribing to good news feeds is a nice way to stay up-to-date with
+latest things happening. I use Newsticker for this.
+
+#+BEGIN_SRC emacs-lisp
+  (setq newsticker-url-list '(
+                              ("Reddit Emacs" "https://www.reddit.com/r/emacs/.rss" nil 3600)
+                              ("Reddit Elixir" "https://www.reddit.com/r/elixir/.rss" nil 3600)
+                              ("Reddit Org Mode" "https://www.reddit.com/r/orgmode/.rss" nil 3600)
+                              ("Reddit Ruby" "https://www.reddit.com/r/ruby/.rss" nil 3600)))
+#+END_SRC
+
 * Smex
 
 It provides a convenient interface to your recently and most
