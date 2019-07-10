@@ -165,12 +165,13 @@ Set my position but can't remember why…
 
 This section is dedicated to UI customiation.
 
-I don't need the splash screen on startup nor the tool bar.
+I don't need the splash screen on startup, tool bar nor scroll-bar.
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-splash-screen t)
 
   (tool-bar-mode -1)
+  (set-scroll-bar-mode nil)
 #+END_SRC
 
 For some reason Emacs sometime asks to answer its question by y / n
