@@ -1213,8 +1213,7 @@ Subscribing to good news feeds is a nice way to stay up-to-date with
 latest things happening. I use Newsticker for this.
 
 #+BEGIN_SRC emacs-lisp
-  (setq newsticker-url-list '(
-                              ("Reddit Emacs" "https://www.reddit.com/r/emacs/.rss" nil 3600)
+  (setq newsticker-url-list '(("Reddit Emacs" "https://www.reddit.com/r/emacs/.rss" nil 3600)
                               ("Reddit Elixir" "https://www.reddit.com/r/elixir/.rss" nil 3600)
                               ("Reddit Org Mode" "https://www.reddit.com/r/orgmode/.rss" nil 3600)
                               ("Reddit Ruby" "https://www.reddit.com/r/ruby/.rss" nil 3600)))
@@ -1412,172 +1411,17 @@ plan projects, maintain TODO lists, author documents and more.
 
 * Eshell
 
-Eshell can be useful when using a shell in Emacs. Let's customize it
-to have a pretty prompt.
-
-Code was borrowed from [[https://github.com/ekaschalk/.spacemacs.d/][ekaschalk' Spacemacs.d]].
+Eshell can be useful when using a shell in Emacs. Let's use [[https://github.com/manateelazycat/aweshell][Aweshell]]
+to enhance usage experience.
 
 #+BEGIN_SRC emacs-lisp
-  (require 'dash)
-  (require 'dash-functional)
-  (require 's)
-
-  (provide 'macros)
-
-  ;;; define-keys
-
-  (defun define-keys (keymap &rest pairs)
-    "Define alternating key-def PAIRS for KEYMAP."
-    (-each
-        (-partition 2 pairs)
-      (-lambda ((key def))
-        (define-key keymap key def))))
-
-  ;;; global-set-keys
-
-  (defun global-set-keys (&rest pairs)
-    "Set alternating key-def PAIRS globally."
-    (-each
-        (-partition 2 pairs)
-      (-lambda ((key def))
-        (global-set-key key def))))
-
-  ;;; evil-global-set-keys
-
-  (defun evil-global-set-keys (states &rest pairs)
-    "Set alternating key-def PAIRS for all evil STATES."
-    (-each
-        (-partition 2 pairs)
-      (-lambda ((key def))
-        (--each states
-          (evil-global-set-key it key def)))))
-
-  ;;; with-dir
-
-  (defmacro with-dir (DIR &rest FORMS)
-    "Execute FORMS in DIR."
-    (let ((orig-dir (gensym)))
-      `(prog2
-           (setq ,orig-dir default-directory)
-           (progn (cd ,DIR) ,@FORMS)
-         (cd ,orig-dir))))
-
-  ;;; with-face
-
-  (defmacro with-face (STR &rest PROPS)
-    "Return STR propertized with PROPS."
-    `(propertize ,STR 'face (list ,@PROPS)))
-
-  (require 'macros)
-
-  (provide 'pretty-eshell)
-
-  ;;; Config
-
-  (defvar pretty-eshell-funcs nil
-    "List of `pretty-eshell-section' to enable.")
-
-  (defvar pretty-eshell-sep "  "
-    "String delimits each `pretty-eshell-section'")
-
-  (defvar pretty-eshell-section-delim " "
-    "String delimits icons and their text.")
-
-  (defvar pretty-eshell-header "\n┌─ "
-    "Initial string composing the eshell prompt.")
-
-  (defvar pretty-eshell-prompt-string "└─> "
-    "Prompt string, must match builtin `eshell-prompt-regexp'")
-
-  (defvar pretty-eshell-prompt-num 0
-    "Prompt number for current eshell session.")
-
-  (setq eshell-prompt-regexp "└─> ")
-
-  ;;; Section utilities
-
-  (add-hook 'eshell-exit-hook
-            (lambda () (setq pretty-eshell-prompt-num 0)))
-  (advice-add 'eshell-send-input :before
-              (lambda (&rest args) (cl-incf pretty-eshell-prompt-num)))
-
-  ;;; Core
-
-  ;;;###autoload
-  (defmacro pretty-eshell-section (name icon form &rest props)
-    "Build eshell section NAME with ICON prepended to evaled FORM with PROPS."
-    ;; Roundabout way to handle case that
-    ;; 1. Form is a variable and
-    ;; 2. That variable might not be defined/initialized
-    ;; Eg. pyvenv-virtualenv-name not loaded until pyvenv-workon
-    `(setq ,name
-           (lambda ()
-             (when (or (and (symbolp (quote ,form))
-                            (bound-and-true-p ,form))
-                       (and (not (symbolp (quote ,form)))
-                            ,form))
-               (-> ,icon
-                  (concat pretty-eshell-section-delim ,form)
-                  (with-face ,@props))))))
-
-  ;;;###autoload
-  (defun pretty-eshell--acc (acc x)
-    "Accumulator for evaluating and concatenating pretty-eshell-sections."
-    (--if-let (funcall x)
-        (if (s-blank? acc)
-            it
-          (s-concat acc pretty-eshell-sep it))
-      acc))
-
-  ;;;###autoload
-  (defun pretty-eshell-prompt-func ()
-    "Value for `eshell-prompt-function'."
-    (concat pretty-eshell-header
-            (-reduce-from 'pretty-eshell--acc "" pretty-eshell-funcs)
-            "\n"
-            pretty-eshell-prompt-string))
-
-  (setq eshell-prompt-function
-        'pretty-eshell-prompt-func)
-
-  (progn
-        ;; Directory
-        (pretty-eshell-section
-         esh-dir
-         "\xf07c"  ; 
-         (abbreviate-file-name (eshell/pwd))
-         '(:foreground "gold" :bold ultra-bold :underline t))
-
-        ;; Git Branch
-        (pretty-eshell-section
-         esh-git
-         "\xe907"  ; 
-         (magit-get-current-branch)
-         '(:foreground "pink"))
-
-        ;; Python Virtual Environment
-        (pretty-eshell-section
-         esh-python
-         "\xe928"  ; 
-         pyvenv-virtual-env-name)
-
-        ;; Time
-        (pretty-eshell-section
-         esh-clock
-         "\xf017"  ; 
-         (format-time-string "%H:%M" (current-time))
-         '(:foreground "forest green"))
-
-        ;; Prompy Number
-        (pretty-eshell-section
-         esh-num
-         "\xf0c9"  ; 
-         (number-to-string pretty-eshell-prompt-num)
-         '(:foreground "brown"))
-
-        (setq pretty-eshell-funcs
-              (list esh-dir esh-git esh-clock esh-num)))
+  (use-package eshell
+    :after (exec-path-from-shell)
+    :config
+    (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/aweshell"))
+    (require 'aweshell))
 #+END_SRC
+
 * PDF
 
 Emacs has built-in support for viewing PDF but is pretty limited in
