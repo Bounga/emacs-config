@@ -466,6 +466,30 @@ use [[https://github.com/leoliu/ggtags][ggtags]] to do this.
     :hook (prog-mode . ggtags-mode))
 #+END_SRC
 
+Emacs client for LSP to provide IDE-like experience for development.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :hook (ruby-mode . lsp)
+    :commands lsp)
+
+  (use-package company-lsp
+    :ensure t
+    :commands company-lsp
+    :config
+    (eval-after-load 'company
+      '(push 'company-lsp company-backends)))
+
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+
+
+  (use-package dap-mode
+    :ensure t)
+#+END_SRC
+
 * Lang
 
 This section is dedicated to packages that provide programming
