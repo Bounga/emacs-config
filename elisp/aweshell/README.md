@@ -23,6 +23,7 @@ So I wrote `aweshell.el` to extend `eshell` with these features:
 13. Make cat file with syntax highlight.
 14. Alert user when background process finished or aborted.
 15. Complete shell command arguments like IDE feeling.
+16. Dedicated shell window like IDE bottom terminal window.
 
 # Installation
 
@@ -43,6 +44,9 @@ aweshell-prev
 aweshell-clear-buffer
 aweshell-sudo-toggle
 aweshell-switch-buffer
+aweshell-dedicated-toggle
+aweshell-dedicated-open
+aweshell-dedicated-close
 ```
 
 # Customize
@@ -57,9 +61,15 @@ aweshell-complete-selection-key
 aweshell-clear-buffer-key
 aweshell-sudo-toggle-key
 aweshell-use-exec-path-from-shell
+aweshell-dedicated-window-height
 ```
 
 Customize prompt as directed in [eshell-prompt-extras' README](https://github.com/kaihaosw/eshell-prompt-extras#themes).
+
+## Dedicated window
+You can use command ```aweshell-dedicated-toggle``` to pop dedicated window at bottom of frame.
+
+<img src="./aweshell-dedicated.gif">
 
 ## Aliases
 
