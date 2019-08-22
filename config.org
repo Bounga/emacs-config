@@ -485,7 +485,6 @@ Emacs client for LSP to provide IDE-like experience for development.
     :ensure t
     :commands lsp-ui-mode)
 
-
   (use-package dap-mode
     :ensure t)
 #+END_SRC
@@ -1033,6 +1032,7 @@ the most powerful command to do this so let's use it.
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "M-/") 'hippie-expand)
+  (setq hippie-expand-try-functions-list '(try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol))
 #+END_SRC
 
 Sometimes I like to use Emojis. The easiest way to do this is to use
