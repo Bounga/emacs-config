@@ -1113,7 +1113,7 @@ I use it for text file but also for code where it checks typos in comments.
     :defer t
     :after flyspell
     :bind (:map flyspell-mode-map
-                ("C-;" . flyspell-correct-word-generic)))
+                ("C-;" . flyspell-correct-previous-word-generic)))
 #+END_SRC
 
 Undoing changes when a lot of modifications have been done can be
