@@ -1171,6 +1171,14 @@ Enable erase-buffer command.
   (put 'erase-buffer 'disabled nil)
 #+END_SRC
 
+Enable narrowing functions.
+
+#+BEGIN_SRC emacs-lisp
+  (put 'narrow-to-region 'disabled nil)
+  (put 'narrow-to-page 'disabled nil)
+  (put 'narrow-to-defun 'disabled nil)
+#+END_SRC
+
 * ERC
 
 IRC has always been a great place to ask technical questions and chat
