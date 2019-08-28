@@ -905,7 +905,13 @@ automatically when an external tool modify the directory structure.
 
 File sizes are displayed using human friendly format.
 
-=C-x C-j= opens the directory of the file in current buffer and move
+Deleting a file doesn't remove it from the disk but rather moves it to
+the system trash for more safety.
+
+When two dired buffers are opened side-by-side renaming and copying
+operations automatically the other buffer directory as the target.
+
+=C-x j= opens the directory of the file in current buffer and move
 the cursor on this given file.
 
 #+BEGIN_SRC emacs-lisp
@@ -916,8 +922,9 @@ the cursor on this given file.
           dired-recursive-copies 'always
           dired-auto-revert-buffer t
           dired-listing-switches "-alh"
+          dired-dwim-target t
           delete-by-moving-to-trash t)
-    :bind ("C-x C-j" . dired-jump))
+    :bind ("C-x j" . dired-jump))
 #+END_SRC
 
 * Tramp
