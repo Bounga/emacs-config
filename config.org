@@ -903,7 +903,9 @@ When using =Dired= to manipulate directories and files I like to copy
 and delete recursively. I also like my =Dired= buffer to be updated
 automatically when an external tool modify the directory structure.
 
-File sizes are displayed using human friendly format.
+File sizes are displayed using human friendly format but such details
+are hidden by default for clarity. You can toggle details back by
+pressing =(= key.
 
 Deleting a file doesn't remove it from the disk but rather moves it to
 the system trash for more safety.
@@ -924,6 +926,7 @@ the cursor on this given file.
           dired-listing-switches "-alh"
           dired-dwim-target t
           delete-by-moving-to-trash t)
+    (add-hook 'dired-mode-hook #'dired-hide-details-mode)
     :bind ("C-x j" . dired-jump))
 #+END_SRC
 
