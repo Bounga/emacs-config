@@ -419,6 +419,7 @@ about it.
     :init
     (add-hook 'after-init-hook 'smartparens-global-mode)
     :hook ((prog-mode . turn-on-smartparens-strict-mode)
+           (web-mode . turn-off-smartparens-strict-mode)
            (markdown-mode . turn-on-smartparens-strict-mode)))
 #+END_SRC
 
@@ -798,14 +799,13 @@ how to handle erb / eex tag pairs.
     :mode (("\\.html?\\'" . web-mode)
            ("\\.erb\\'" . web-mode)
            ("\\.eex\\'" . web-mode))
-
-    :hook (web-mode . smartparens-mode)
     :init
     ;; Set indent to 2 and auto-close tags
     (setq web-mode-markup-indent-offset 2
           web-mode-code-indent-offset 2
           web-mode-enable-current-element-highlight t
-          web-mode-enable-auto-closing t)
+          web-mode-enable-auto-closing t
+          web-mode-enable-auto-pairing nil)
 
     ;; make web-mode play nice with smartparens
     :config
