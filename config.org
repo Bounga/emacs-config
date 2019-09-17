@@ -469,6 +469,8 @@ use [[https://github.com/leoliu/ggtags][ggtags]] to do this.
 
 Emacs client for LSP to provide IDE-like experience for development.
 
+I use LSP UI for better UI experience. I also prefer Flycheck over Flymake.
+
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :ensure t
@@ -477,6 +479,7 @@ Emacs client for LSP to provide IDE-like experience for development.
 
   (use-package company-lsp
     :ensure t
+    :after (lsp-mode)
     :commands company-lsp
     :config
     (eval-after-load 'company
@@ -484,10 +487,15 @@ Emacs client for LSP to provide IDE-like experience for development.
 
   (use-package lsp-ui
     :ensure t
-    :commands lsp-ui-mode)
+    :after (lsp-mode)
+    :commands lsp-ui-mode
+    :config
+    (setq lsp-prefer-flymake nil))
 
   (use-package dap-mode
-    :ensure t)
+    :ensure t
+    :after (lsp-mode)
+    :hook lsp-mode)
 #+END_SRC
 
 * Lang
