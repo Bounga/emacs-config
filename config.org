@@ -811,15 +811,15 @@ how to handle erb / eex tag pairs.
     :config
     (eval-after-load 'smartparens
       (sp-with-modes '(web-mode)
-         (sp-local-pair "%" "%"
-                        :unless '(sp-in-string-p)
-                        :post-handlers '(((lambda (&rest _ignored)
-                                            (just-one-space)
-                                            (save-excursion (insert " ")))
-                                          "SPC" "=" "#")))
-         (sp-local-tag "%" "<% "  " %>")
-         (sp-local-tag "=" "<%= " " %>")
-         (sp-local-tag "#" "<%# " " %>"))))
+        (sp-local-pair "%" "%"
+                       :unless '(sp-in-string-p)
+                       :post-handlers '(((lambda (&rest _ignored)
+                                           (just-one-space)
+                                           (save-excursion (insert " ")))
+                                         "SPC" "=" "#")))
+        (sp-local-tag "%" "<% "  " %>")
+        (sp-local-tag "=" "<%= " " %>")
+        (sp-local-tag "#" "<%# " " %>"))))
 #+END_SRC
 
 I also use Slim and Emblem so I use slim-mode for it.
