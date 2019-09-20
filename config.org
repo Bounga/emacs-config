@@ -905,6 +905,21 @@ search to be fast that why I use [[https://github.com/ggreer/the_silver_searcher
     :defer t)
 #+END_SRC
 
+I sometime need to take notes on a given project to remember things to
+do or even create issues on the bug tracker. I think /org-projectile/
+can help me with that.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-projectile
+    :bind (("C-c n p" . org-projectile-project-todo-completing-read))
+    :config
+    (progn
+      (setq org-projectile-projects-file (concat org-directory "/projects.org")
+            org-confirm-elisp-link-function nil)
+      (push (org-projectile-project-todo-entry) org-capture-templates))
+    :ensure t)
+#+END_SRC
+
 * Dired
 
 When using =Dired= to manipulate directories and files I like to copy

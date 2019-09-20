@@ -20,3 +20,5 @@ config.el
 smex-items
 newsticker
 elisp/aweshell/.git
+/.dap-breakpoints
+/.lsp-session-v1
