@@ -336,6 +336,7 @@ also enable GitFlow extension for Magit.
   (use-package magit-gitflow
     :ensure t
     :defer t
+    :after magit
     :hook (magit-mode . turn-on-magit-gitflow))
 #+END_SRC
 
