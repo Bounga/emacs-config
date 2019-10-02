@@ -912,13 +912,15 @@ can help me with that.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-projectile
+    :ensure t
+    :defer t
+    :after projectile
     :bind (("C-c n p" . org-projectile-project-todo-completing-read))
     :config
     (progn
       (setq org-projectile-projects-file (concat org-directory "/projects.org")
             org-confirm-elisp-link-function nil)
-      (push (org-projectile-project-todo-entry) org-capture-templates))
-    :ensure t)
+      (push (org-projectile-project-todo-entry) org-capture-templates)))
 #+END_SRC
 
 * Dired
