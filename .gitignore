@@ -22,3 +22,6 @@ newsticker
 elisp/aweshell/.git
 /.dap-breakpoints
 /.lsp-session-v1
+/rake.cache
+/network-security.data
+/transient
