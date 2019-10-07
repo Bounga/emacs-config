@@ -348,14 +348,8 @@ Easily navigate through versions of the file.
     :defer t)
 #+END_SRC
 
-I also really like to use Mercurial for my personal projects. Emacs
-also has an extension that is kind of Magit for Hg called Monky.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package monky
-    :ensure t
-    :defer t
-    :hook (monky-log-edit-mode . turn-on-auto-fill))
 #+END_SRC
 
 When I have to deal with merge conflicts my tool of choice is Emacs
