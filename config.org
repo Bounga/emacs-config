@@ -327,7 +327,7 @@ also enable GitFlow extension for Magit.
   (use-package magit
     :ensure t
     :defer t
-    :bind (("C-x g" . magit-status))
+    :bind (("C-c g" . magit-status))
     :init
     ;; default settings
     (setq magit-log-arguments (quote ("--graph" "--color" "--decorate" "-n256"))
