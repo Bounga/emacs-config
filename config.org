@@ -952,7 +952,7 @@ the cursor on this given file.
           dired-dwim-target t
           delete-by-moving-to-trash t)
     (put 'dired-find-alternate-file 'disabled nil)
-    (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+    :hook (dired-mode . dired-hide-details-mode)
     :bind ("C-x j" . dired-jump))
 #+END_SRC
 
