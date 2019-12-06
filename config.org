@@ -1358,18 +1358,21 @@ plan projects, maintain TODO lists, author documents and more.
 
   ;; Exporters
   (use-package ox-gfm
-    :ensure t)
+    :ensure t
+    :init
+    (require 'ox-gfm))
 
   (use-package ox-twbs
-    :ensure t)
+    :ensure t
+    :init
+    (require 'ox-twbs))
 
   (use-package ob-elixir
     :ensure t)
 
   (use-package org-bullets
     :ensure t
-    :hook (org-mode .(lambda()
-                       (org-bullets-mode t))))
+    :hook (org-mode . org-bullets-mode))
 #+END_SRC
 
 * Eshell
