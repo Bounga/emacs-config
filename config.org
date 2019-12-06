@@ -666,19 +666,6 @@ Emacs.
     :hook (ruby-mode . inf-ruby-minor-mode))
 #+END_SRC
 
-[[https://github.com/dgutov/robe][Robe]] is a code assistance tool which provides ode navigation,
-documentation lookup and completion for Ruby.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package robe
-    :ensure t
-    :defer t
-    :hook ((ruby-mode . robe-mode))
-    :config
-    (eval-after-load 'company
-      '(push 'company-robe company-backends)))
-#+END_SRC
-
 Documenting code is an important part of a developer work. In Ruby, I
 use [[https://yardoc.org][YARD]] to do this. [[https://github.com/pd/yard-mode.el][yard-mode]] provides support for fontifying YARD
 tags and directives in ruby comments and also give tips about how to
