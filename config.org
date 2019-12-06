@@ -1383,7 +1383,7 @@ to enhance usage experience.
 #+BEGIN_SRC emacs-lisp
   (use-package eshell
     :after (exec-path-from-shell)
-    :config
+    :init
     (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/aweshell"))
     (require 'aweshell))
 #+END_SRC
