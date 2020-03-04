@@ -1148,6 +1148,7 @@ client.
 
 #+BEGIN_SRC emacs-lisp
   (use-package erc
+    :hook (erc . erc-truncate-mode)
     :config
     (setq erc-prompt-for-password nil
           erc-hide-list '("JOIN" "PART" "QUIT")
@@ -1166,8 +1167,9 @@ client.
                                          "#elixir-lang"
                                          "#emacs"
                                          "#emacsfr"
-                                         "#synbioz"))
-          (erc-truncate-mode t)))
+                                         "#gnus"
+                                         "#org-mode"
+                                         "#synbioz"))))
 
   (use-package erc-services
     :config
@@ -1177,7 +1179,8 @@ client.
   (use-package erc-spelling
     :config
     (setq erc-spelling-dictionaries '(("irc.freenode.net:6667" "american")
-                                      ("#emacsfr" "french")))
+                                      ("#emacsfr" "french")
+                                      ("#synbioz" "french")))
     (erc-spelling-mode t))
 
   (use-package erc-hl-nicks
