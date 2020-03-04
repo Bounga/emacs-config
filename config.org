@@ -1017,7 +1017,10 @@ Sometimes I like to use Emojis. The easiest way to do this is to use
 
 #+BEGIN_SRC emacs-lisp
   (use-package company-emoji
+    :after company
     :init
+    (add-to-list 'company-backends 'company-emoji)
+
     (defun --set-emoji-font (frame)
       "Adjust the font settings of FRAME so Emacs can display emoji properly."
       (if (eq system-type 'darwin)
@@ -1025,15 +1028,9 @@ Sometimes I like to use Emojis. The easiest way to do this is to use
           (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
         ;; For Linux
         (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
-    :config
     ;; For when Emacs is started in GUI mode:
     (--set-emoji-font nil)
-    ;; Hook for when a frame is created with emacsclient
-    ;; see https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Frames.html
-    (add-hook 'after-make-frame-functions '--set-emoji-font)
-
-    (eval-after-load 'company
-        '(push 'company-emoji company-backends)))
+    :hook (after-make-frame-functions . --set-emoji-font))
 #+END_SRC
 
 Handling white-spaces by hand is a pain. I use [[https://www.emacswiki.org/emacs/WhiteSpace][whitespace]] to cleanup
