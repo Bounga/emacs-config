@@ -308,7 +308,7 @@ When opening a help window, move to it
   (setq help-window-select t)
 #+END_SRC
 
-Prettifying UI by using icon
+Prettifying UI by using icons
 
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons
@@ -317,10 +317,7 @@ Prettifying UI by using icon
 
   (use-package all-the-icons-ivy
     :ensure t
-    :demand t
-    :after (ivy)
-    :config
-    (all-the-icons-ivy-setup))
+    :hook (after-init . all-the-icons-ivy-setup))
 #+END_SRC
 
 * Versioning
