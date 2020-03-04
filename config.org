@@ -636,7 +636,6 @@ since it's not need in recent version of Ruby.
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-mode
     :ensure t
-    :defer t
     :hook (ruby-mode . subword-mode)
     :init
     (setq ruby-deep-indent-paren nil
@@ -650,7 +649,6 @@ Ruby file.
 #+BEGIN_SRC emacs-lisp
   (use-package rbenv
     :ensure t
-    :defer t
     :hook (ruby-mode . rbenv-use-corresponding))
 #+END_SRC
 
@@ -660,7 +658,6 @@ functions to manipulate strings.
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-tools
     :ensure t
-    :defer t
     :hook (ruby-mode . ruby-tools-mode))
 #+END_SRC
 
@@ -671,7 +668,6 @@ Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package inf-ruby
     :ensure t
-    :defer t
     :hook (ruby-mode . inf-ruby-minor-mode))
 #+END_SRC
 
@@ -683,7 +679,6 @@ use a given tag.
 #+BEGIN_SRC emacs-lisp
   (use-package yard-mode
     :ensure t
-    :defer t
     :hook (ruby-mode . yard-mode))
 #+END_SRC
 
@@ -693,9 +688,7 @@ it in Projectile is great.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile-rails
     :ensure t
-    :defer t
-    :init
-    (add-hook 'after-init-hook 'projectile-rails-global-mode))
+    :hook (after-init . projectile-rails-global-mode))
 #+END_SRC
 
 Sometimes I want to align assignments which each others, values in
