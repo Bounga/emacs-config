@@ -340,6 +340,7 @@ also enable GitFlow extension for Magit.
     :config
     ;; default settings
     (setq magit-log-arguments (quote ("--graph" "--color" "--decorate" "-n256"))
+          magit-gitflow-release-finish-arguments (quote ("--fetch" "--push"))
           magit-completing-read-function 'ivy-completing-read))
 
   (use-package magit-gitflow
