@@ -1237,8 +1237,7 @@ I use it for everything everywhere.
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
     :ensure t
-    :bind (("C-s" . swiper-isearch)
-           ("C-c C-r" . ivy-resume)
+    :bind (("C-c C-r" . ivy-resume)
            ("C-x b" . ivy-switch-buffer))
     :hook (after-init . ivy-mode)
     :config
@@ -1281,6 +1280,13 @@ I use it for everything everywhere.
            ("M-g w" . avy-goto-word-1)
            ("M-g e" . avy-goto-word-0)
            ("C-c C-j" . avy-resume)))
+
+  (use-package swiper
+    :ensure t
+    :after ivy
+    :config
+    (setq swiper-goto-start-of-match t)
+    :bind (("C-s" . swiper-isearch)))
 #+END_SRC
 
 * Org
