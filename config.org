@@ -386,13 +386,14 @@ globally and add it to company backends.
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :ensure t
+    :after company
     :hook (after-init . yas-global-mode)
     :config
-    (eval-after-load 'company
-      '(push 'company-yasnippet company-backends)))
+    (add-to-list 'company-backends 'company-yasnippet))
 
   (use-package yasnippet-snippets
-    :ensure t)
+    :ensure t
+    :after yasnippet)
 #+END_SRC
 
 I like to lint my code on-the-fly so I know what is not following the
