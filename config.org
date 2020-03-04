@@ -1401,7 +1401,17 @@ plan projects, maintain TODO lists, author documents and more.
     :hook (org-mode . org-bullets-mode))
 #+END_SRC
 
-* Eshell
+* Shell
+
+emacs-vterm allow to emulate very complex term in an Emacs buffer by
+using libvterm. Using vterm I can use Fish, my complex prompt and even
+ncurse / interactive programs in a Emacs buffer as if I was using
+Terminal.app. I really love it!
+
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm
+    :ensure t)
+#+END_SRC
 
 Eshell can be useful when using a shell in Emacs. Let's use [[https://github.com/manateelazycat/aweshell][Aweshell]]
 to enhance usage experience.
