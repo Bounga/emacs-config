@@ -1178,9 +1178,9 @@ client.
 
 * Gnus
 
-Reading emails in text mode is fun 😉. [[http://gnus.org][Gnus]] is incredibly powerful
-when it comes to reading News or emails. It does everything you can
-dream of and that's why its [[http://gnus.org/manual/gnus_toc.html][manual is so big]].
+Reading emails in text mode is fun. [[http://gnus.org][Gnus]] is incredibly powerful when
+it comes to reading News or emails. It does everything you can dream
+of and that's why its [[http://gnus.org/manual/gnus_toc.html][manual is so big]].
 
 It even can take care of your favorites [[https://www.gnu.org/software/emacs/manual/html_node/gnus/RSS.html][RSS feeds]].
 
@@ -1188,21 +1188,11 @@ It even can take care of your favorites [[https://www.gnu.org/software/emacs/man
   (use-package gnus-start
     :config
     (setq gnus-init-file "~/.emacs.d/gnus.el"
-          gnus-startup-file "~/.emacs.d/newsrc"
-          gnus-directory "~/.emacs.d/News/"
-          message-directory "~/.emacs.d/Mail/"))
+          gnus-directory "~/.emacs.d/News/"))
 #+END_SRC
 
-* News feeds
-
-Subscribing to good news feeds is a nice way to stay up-to-date with
-latest things happening. I use Newsticker for this.
 
 #+BEGIN_SRC emacs-lisp
-  (setq newsticker-url-list '(("Reddit Emacs" "https://www.reddit.com/r/emacs/.rss" nil 3600)
-                              ("Reddit Elixir" "https://www.reddit.com/r/elixir/.rss" nil 3600)
-                              ("Reddit Org Mode" "https://www.reddit.com/r/orgmode/.rss" nil 3600)
-                              ("Reddit Ruby" "https://www.reddit.com/r/ruby/.rss" nil 3600)))
 #+END_SRC
 
 * Smex
