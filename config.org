@@ -1007,18 +1007,15 @@ Sometimes I like to use Emojis. The easiest way to do this is to use
   (use-package company-emoji
     :after company
     :init
-    (add-to-list 'company-backends 'company-emoji)
-
-    (defun --set-emoji-font (frame)
+    (defun bounga/enable-emojis ()
       "Adjust the font settings of FRAME so Emacs can display emoji properly."
       (if (eq system-type 'darwin)
           ;; For NS/Cocoa
-          (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
+          (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
         ;; For Linux
-        (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
-    ;; For when Emacs is started in GUI mode:
-    (--set-emoji-font nil)
-    :hook (after-make-frame-functions . --set-emoji-font))
+        (set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'prepend))
+      (setq-local company-backends (append '(company-emoji) company-backends)))
+    :hook (text-mode . bounga/enable-emojis))
 #+END_SRC
 
 Handling white-spaces by hand is a pain. I use [[https://www.emacswiki.org/emacs/WhiteSpace][whitespace]] to cleanup
