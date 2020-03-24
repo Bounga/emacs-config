@@ -1279,9 +1279,11 @@ plan projects, maintain TODO lists, author documents and more.
     :hook ((org-mode . turn-on-auto-fill)
            (org-mode . flyspell-mode))
     :config
+    (require 'org-tempo)
     (setq org-directory "~/Documents/org"
           org-agenda-files (directory-files org-directory t ".org$")
           org-log-done t
+          org-log-into-drawer t
           org-hide-leading-stars t
           org-startup-indented t
           org-default-notes-file (concat org-directory "/notes.org")
