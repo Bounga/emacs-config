@@ -1292,7 +1292,9 @@ plan projects, maintain TODO lists, author documents and more.
           org-confirm-babel-evaluate nil
           org-blank-before-new-entry '((heading . always) (plain-list-item . auto))
           org-global-properties '(("Effort_ALL". "0:10 0:20 0:30 1:00 2:00 3:00 4:00 6:00 8:00 0:00"))
-          org-columns-default-format '"%38ITEM(Details) %TAGS(Context) %7TODO(To Do) %5Effort(Time){:} %6CLOCKSUM(Clock){:}")
+          org-columns-default-format '"%38ITEM(Details) %TAGS(Context) %7TODO(To Do) %5Effort(Time){:} %6CLOCKSUM(Clock){:}"
+          org-default-priority 68
+          org-lowest-priority 68)
 
     ;; make tab in source code blocks act the same way as in a native buffer
     (setq org-src-tab-acts-natively t
