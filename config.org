@@ -77,14 +77,10 @@ This section sets all common core behaviors for Emacs
   ;; enable semantic mode to provide more features to modes
   (semantic-mode t)
 
-  ;; clean up obsolete buffers automatically
-  (use-package midnight
-    :ensure t
-    :hook (after-init . midnight-mode))
-
   ;; use ibuffer rather than list-buffer
   (use-package ibuffer
-    :bind ("C-x C-b" . ibuffer))
+    :bind (("C-x C-b" . ibuffer)
+           ("s-b" . mode-line-other-buffer)))
 
   ;; saner regex syntax
   (use-package re-builder
