@@ -1351,12 +1351,17 @@ plan projects, maintain TODO lists, author documents and more.
   (use-package org-agenda
     :config
     (setq org-agenda-include-diary t)
-    (add-to-list 'org-agenda-custom-commands
-                 '("w" "Work agenda and TODOs"
-                   ((agenda)
-                    (tags-todo "CATEGORY=\"work\"")
-                    )
-                   ((org-agenda-category-filter-preset '("+work"))))))
+    (setq org-agenda-custom-commands
+          '(("n" "Agenda and all TODOs"
+             ((agenda "")
+              (alltodo "")))
+            ("w" "Work agenda and TODOs"
+             ((agenda)
+              (tags-todo "CATEGORY=\"work\""))
+             ((org-agenda-category-filter-preset '("+work"))))
+            ("%" "Appointments" agenda* "Today's appointments"
+             ((org-agenda-span 1)
+              (org-agenda-max-entries 3))))))
 
   ;; Exporters
   (use-package ox-gfm
