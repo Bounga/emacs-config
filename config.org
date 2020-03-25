@@ -1280,6 +1280,7 @@ plan projects, maintain TODO lists, author documents and more.
            (org-mode . flyspell-mode))
     :config
     (require 'org-tempo)
+    (require 'org-protocol)
     (setq org-directory "~/Documents/org"
           org-agenda-files (directory-files org-directory t ".org$")
           org-log-done t
