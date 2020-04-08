@@ -56,34 +56,30 @@
 ;; personal IMAP server info
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
-(setq gnus-select-method
-      '(nnimap "home"
-               (nnimap-address "imap.gmail.com")
-               (nnimap-server-port "imaps")
-               (nnimap-stream ssl)
-               (nnir-search-engine imap)
-               ;; @see http://www.gnu.org/software/emacs/manual/html_node/gnus/Expiring-Mail.html
-               ;; press 'E' to expire email
-               (nnmail-expiry-target "nnimap+home:[Gmail]/Trash")
-               (nnmail-expiry-wait 'immediate)))
-
-;; work IMAP server info
+;; IMAP server info
+(setq gnus-select-method '(nnnil nil))
 (setq gnus-secondary-select-methods
-      '((nnimap "work"
+      '((nntp "news.gwene.org")
+        (nnimap "home"
                 (nnimap-address "imap.gmail.com")
                 (nnimap-server-port "imaps")
                 (nnimap-stream ssl)
                 (nnir-search-engine imap)
-                (nnmail-expiry-target "nnimap+work:[Gmail]/Trash")
+                ;; @see http://www.gnu.org/software/emacs/manual/html_node/gnus/Expiring-Mail.html
+                ;; press 'E' to expire email
+                (nnmail-expiry-target "nnimap+home:[Gmail]/Corbeille")
+                (nnmail-expiry-wait 'immediate))
+        (nnimap "work"
+                (nnimap-address "imap.gmail.com")
+                (nnimap-server-port "imaps")
+                (nnimap-stream ssl)
+                (nnir-search-engine imap)
+                (nnmail-expiry-target "nnimap+work:[Gmail]/Corbeille")
                 (nnmail-expiry-wait 'immediate))))
-
-;; Archive outgoing email in Sent folder on imap.gmail.com:
-(setq gnus-message-archive-method '(nnimap "home")
-      gnus-message-archive-group "[Gmail]/Sent Mail")
 
 ;; Send email through SMTP
 (setq message-send-mail-function 'smtpmail-send-it
-      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
       smtpmail-local-domain "bounga")
 
