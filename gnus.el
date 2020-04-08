@@ -33,6 +33,26 @@
       gnus-message-archive-group nil
       gnus-always-read-dribble-file t)
 
+;; Customize the way threads are displayed
+(setq gnus-summary-line-format
+      (concat
+       "%0{%U%R%z%}"
+       "%3{│%}" "%1{%d%}" "%3{│%}" ;; date
+       "  "
+       "%4{%-20,20f%}"               ;; name
+       "  "
+       "%3{│%}"
+       " "
+       "%1{%B%}"
+       "%s\n")
+      gnus-sum-thread-tree-indent "  "
+      gnus-sum-thread-tree-root "● "
+      gnus-sum-thread-tree-false-root "◯ "
+      gnus-sum-thread-tree-single-indent "◎ "
+      gnus-sum-thread-tree-vertical        "│"
+      gnus-sum-thread-tree-leaf-with-other "├─► "
+      gnus-sum-thread-tree-single-leaf     "╰─► ")
+
 ;; personal IMAP server info
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
