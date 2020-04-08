@@ -27,6 +27,8 @@
       mm-decrypt-option 'always
       mm-discouraged-alternatives '("text/html" "text/richtext")
 
+      gnus-asynchronous t
+      gnus-novice-user nil
       gnus-fetch-old-headers t
       gnus-message-archive-group nil
       gnus-always-read-dribble-file t)
