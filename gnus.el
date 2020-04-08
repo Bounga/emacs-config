@@ -33,6 +33,11 @@
       gnus-message-archive-group nil
       gnus-always-read-dribble-file t)
 
+;; Newsgroup related setup
+(setq gnus-startup-file "~/.emacs.d/newsrc"
+      gnus-save-killed-list nil
+      gnus-save-newsrc-file nil)
+
 ;; Customize the way threads are displayed
 (setq gnus-summary-line-format
       (concat
