@@ -134,13 +134,16 @@ systematically send signed / encrypted emails when possible."
 (add-to-list 'gnus-extra-headers 'To)
 (setq gnus-posting-styles
       '((".*" ; Matches all groups of messages
-         (address "nico@bounga.org"))
-        ((header "to" "nicolas@cavigneaux.net")
+         (address "Nicolas Cavigneaux <nico@bounga.org>"))
+        ((header "to" "Nicolas Cavigneaux <nicolas@cavigneaux.net>")
          (address "nicolas@cavigneaux.net"))
         ("work"
-         (address "ncavigneaux@synbioz.com")
+         (address "Nicolas Cavigneaux <ncavigneaux@synbioz.com>")
          (organization "Synbioz")
-         (signature-file "~/.signature-work"))))
+         (signature-file "~/.signature-work")
+         ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587 ncavigneaux@synbioz.com"))
+        ("gwene"
+         (address "Nicolas Cavigneaux <cavigneaux@gmail.com>"))))
 
 ;; Show all subscribed groups in groups buffer
 (add-hook 'gnus-started-hook
