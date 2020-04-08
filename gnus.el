@@ -97,7 +97,38 @@
         (not gnus-thread-sort-by-number)))
 
 ;; Attempt to sign and encrypt all the mails we'll be sending.
-(add-hook 'gnus-message-setup-hook 'mml-secure-message-sign-encrypt)
+(defun bounga/message-recipients ()
+  "Return a list of all recipients in the message, looking at TO, CC and BCC.
+
+Each recipient is in the format of `mail-extract-address-components'."
+  (mapcan (lambda (header)
+            (let ((header-value (message-fetch-field header)))
+              (and
+               header-value
+               (mail-extract-address-components header-value t))))
+          '("To" "Cc" "Bcc")))
+
+(defun bounga/message-all-epg-keys-available-p ()
+  "Return non-nil if the pgp keyring has a public key for each recipient."
+  (require 'epa)
+  (let ((context (epg-make-context epa-protocol)))
+    (catch 'break
+      (dolist (recipient (message-recipients))
+        (let ((recipient-email (cadr recipient)))
+          (when (and recipient-email (not (epg-list-keys context recipient-email)))
+            (throw 'break nil))))
+      t)))
+
+(defun bounga/message-sign-encrypt-if-all-keys-available ()
+  "Add MML tag to encrypt message when there is a key for each recipient, sign it otherwise.
+
+Consider adding this function to `message-send-hook' to
+systematically send signed / encrypted emails when possible."
+  (if (message-all-epg-keys-available-p)
+      (mml-secure-message-sign-encrypt)
+    (mml-secure-message-sign)))
+
+(add-hook 'message-send-hook 'bounga/message-sign-encrypt-if-all-keys-available)
 
 ;; Reply to mails with matching email address
 (add-to-list 'gnus-extra-headers 'To)
