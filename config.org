@@ -189,11 +189,13 @@ only.
 #+END_SRC
 
 Moving from a window to another one is a pain with default key
-bindings. I use ~Windmove~ to ease window movements by using ~shift~
-and an arrow key.
+bindings. I use ~ace-window~ to ease window movements by using =M-o=
+as prefix.
 
 #+BEGIN_SRC emacs-lisp
-  (windmove-default-keybindings)
+  (use-package ace-window
+    :ensure t
+    :bind ("M-o" . ace-window))
 #+END_SRC
 
 I like dark themes without too much vibrant colors. 
